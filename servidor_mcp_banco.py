@@ -57,4 +57,5 @@ def executar_consulta_sql(query: str) -> str:
         return f"Falha na execução da consulta SQL: {e}"
 
 if __name__ == "__main__":
+
     mcp.run(transport="stdio")
