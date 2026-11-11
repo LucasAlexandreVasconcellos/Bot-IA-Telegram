@@ -12,6 +12,9 @@ from pydantic import BaseModel, Field
 from dotenv import load_dotenv
 from datetime import datetime
 
+# Import da camada de qualidade de dados (Integrante 2)
+from qualidade_dados import sanitizar_linhas_consulta
+
 load_dotenv()
 
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
@@ -51,7 +54,7 @@ class RespostaAgente(BaseModel):
     )
 
 # ==========================================
-# 2. ESQUEMA DO BANCO E EXECUÇÃO SEGURA
+# 2. ESQUEMA DO BANCO E EXECUÇÃO DEFENSIVA
 # ==========================================
 
 ESQUEMA_BANCO = """
@@ -74,13 +77,15 @@ Tabelas disponíveis no SQLite:
 """
 
 def executar_query_sqlite(sql: str):
-    """Executa o SQL gerado localmente garantindo custo zero de tokens."""
+    """Executa consultas com text_factory=bytes para blindar contra falhas de decodificação UTF-8."""
     try:
         sql_limpo = sql.strip().strip("`").replace("sql", "").strip()
         if not sql_limpo.upper().startswith("SELECT"):
             return None, "Apenas consultas SELECT são permitidas."
 
         conexao = sqlite3.connect("sandbox_jarvis.db")
+        # Leitura em bytes para não quebrar a consulta inteira com texto corrompido
+        conexao.text_factory = bytes
         cursor = conexao.cursor()
         cursor.execute(sql_limpo)
         colunas = [descricao[0] for descricao in cursor.description]
@@ -90,8 +95,18 @@ def executar_query_sqlite(sql: str):
         if not linhas:
             return None, "Nenhum dado encontrado para os filtros informados."
 
-        resultado = [dict(zip(colunas, linha)) for linha in linhas]
-        return resultado, None
+        resultado_bruto = [dict(zip(colunas, linha)) for linha in linhas]
+        
+        # Aplicação da camada defensiva de qualidade
+        dados_higienizados, qtd_isolados = sanitizar_linhas_consulta(resultado_bruto)
+        
+        if not dados_higienizados:
+            return None, f"Todos os {qtd_isolados} registros retornados apresentavam inconsistências críticas de integridade."
+
+        return {
+            "dados": dados_higienizados,
+            "isolados": qtd_isolados
+        }, None
     except Exception as e:
         return None, f"Erro ao consultar o banco de dados: {e}"
 
@@ -156,7 +171,6 @@ def responder_kpi(mensagem):
     pergunta_usuario = mensagem.text
     hora_atual = datetime.now().strftime("%H:%M")
 
-    # ETAPA 1: Text-to-SQL (Gera a query necessária)
     prompt_sql = f"""Você é um especialista em SQLite corporativo.
 Gere um comando SQL SELECT para consultar os dados solicitados pelo usuário com base no esquema abaixo:
 
@@ -165,7 +179,7 @@ Gere um comando SQL SELECT para consultar os dados solicitados pelo usuário com
 REGRAS:
 1. Retorne APENAS o comando SQL puro sem markdown.
 2. Para semanas de Agosto/2026: use WHERE tipo_periodo = 'Semanal' AND (periodo LIKE '%Ago/2026%' OR periodo LIKE '%Agosto%').
-3. Para médias de lojas em 2026: use SELECT loja, AVG(valor_venda) as media FROM vendas_lojas WHERE linha_produto = 'Casual' AND ano = 2026 GROUP BY loja.
+3. Para médias de lojas em 2026: use SELECT loja, AVG(valor_venda) as media FROM vendas_lojas WHERE linha_produto = 'Casual' AND ano = 2026 GROUP BY loja;
 4. Se a pergunta for apenas um cumprimento, dúvida geral, fora do escopo ou pergunta pessoal sobre o Jarvis, gere: SELECT 'SEM_CONSULTA' as resultado;
 """
 
@@ -181,14 +195,20 @@ REGRAS:
         )
         sql_gerado = parse_sql.choices[0].message.parsed.sql_query
 
-        # ETAPA 2: Execução local do SQL
+        # ETAPA 2: Execução com Camada de Qualidade
         if "SEM_CONSULTA" in sql_gerado:
             dados_recuperados = "Nenhuma consulta SQL necessária para esta solicitação."
         else:
-            dados_filtrados, erro = executar_query_sqlite(sql_gerado)
-            dados_recuperados = f"Erro na consulta: {erro}" if erro else f"{dados_filtrados}"
+            resultado_consulta, erro = executar_query_sqlite(sql_gerado)
+            if erro:
+                dados_recuperados = f"Erro na consulta: {erro}"
+            else:
+                dados_recuperados = (
+                    f"Dados validados e higienizados: {resultado_consulta['dados']}. "
+                    f"Nota: {resultado_consulta['isolados']} registro(s) foram isolados pela camada de qualidade por inconsistência de integridade."
+                )
 
-        # ETAPA 3: Prompt Original Completo do Jarvis + Validação Pydantic
+        # ETAPA 3: Prompt Completo do Jarvis + Validação Pydantic
         prompt_sistema = f"""Você é o Jarvis, um sistema de inteligência artificial corporativa de alto nível.
 Sua tarefa é analisar dados extraídos do banco de dados da empresa e reportá-los à diretoria.
 
@@ -240,10 +260,8 @@ Dados recuperados da consulta SQL atual:
 
         resposta: RespostaAgente = parse_resposta.choices[0].message.parsed
 
-        # Envia a síntese em texto
         bot.reply_to(mensagem, resposta.texto_resposta)
 
-        # Envia o gráfico PNG correspondente
         if resposta.gerar_grafico and resposta.grafico:
             imagem_buffer = criar_grafico_png(resposta.grafico)
             bot.send_photo(
@@ -255,5 +273,5 @@ Dados recuperados da consulta SQL atual:
     except Exception as e:
         bot.reply_to(mensagem, f"Ocorreu uma falha no processamento, senhor. Detalhes: {e}")
 
-print("Bot Jarvis Text-to-SQL + Prompt Completo Online!")
+print("Jarvis Bot com Camada de Qualidade de Dados Online!")
 bot.polling()
