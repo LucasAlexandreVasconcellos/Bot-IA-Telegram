@@ -1,0 +1,10 @@
+pyTelegramBotAPI
+openai
+pydantic
+python-dotenv
+pandas
+numpy
+matplotlib
+seaborn
+mcp
+psycopg2-binary
