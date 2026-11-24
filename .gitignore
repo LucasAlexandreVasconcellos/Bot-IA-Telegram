@@ -1,5 +1,8 @@
 .env
+.venv/
 __pycache__/
+*.pyc
 *.db
 *.png
+charts/
 jarvis_telegram_sandbox.zip

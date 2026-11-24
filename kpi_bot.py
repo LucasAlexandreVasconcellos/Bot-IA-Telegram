@@ -7,6 +7,7 @@ from openai import OpenAI
 from pydantic import BaseModel, Field
 from dotenv import load_dotenv
 from datetime import datetime
+from analise_estatistica import gerar_analise_estatistica
 
 # Import da camada de sandbox e execução isolada (Integrante 1)
 from sandbox_ambiente.executor_sandbox import executar_codigo_sandbox
@@ -34,6 +35,19 @@ class RoteamentoConsulta(BaseModel):
     sql_query: str = Field(
         ...,
         description="Comando SQL SELECT flexível usando LIKE para SQLite caso tipo_solicitacao seja 'banco_dados'. Caso contrário, retorne 'SELECT 1'."
+    )
+    analise_estatistica: bool = Field(
+        ...,
+        description="True quando o usuário solicitar análise estatística, distribuição, histograma, boxplot, média, mediana ou desvio padrão de dados internos."
+    )
+
+    coluna_estatistica: Optional[Literal[
+        "valor_venda",
+        "valor_monetario",
+        "variacao"
+    ]] = Field(
+        None,
+        description="Coluna numérica utilizada na análise estatística."
     )
 
 class EstruturaGrafico(BaseModel):
@@ -264,6 +278,12 @@ REGRAS PARA SQL (quando tipo_solicitacao = 'banco_dados'):
 2. NÃO restrinja tipo_periodo = 'Anual' se o usuário pedir um ano como 2026, pois 2026 pode ter apenas dados mensais ou semanais. Busque todos os registros daquele ano (periodo LIKE '%2026%').
 3. Para vendas de lojas, lembre-se que o campo mes tem formato 'Janeiro/2026', então use mes LIKE '%Janeiro%'.
 4. Se a pergunta for sobre economia global, conhecimentos gerais, finanças teóricas, cálculos matemáticos, programação ou saudações, defina tipo_solicitacao = 'geral_ou_externo'.
+5. Quando o usuário solicitar análise estatística, distribuição, histograma ou boxplot de dados internos, defina analise_estatistica como True.
+6. Para análise de vendas, utilize a coluna valor_venda.
+7. Para análise de indicadores financeiros, utilize valor_monetario ou variacao, conforme a solicitação.
+8. Nas análises estatísticas, retorne os registros numéricos individuais, sem aplicar SUM, AVG ou GROUP BY. Preserve o nome original da coluna analisada.
+9. Não misture métricas diferentes nem períodos anuais, mensais e semanais em uma mesma distribuição. Respeite os filtros solicitados pelo usuário.
+10. Para solicitações que não sejam análises estatísticas de dados internos, defina analise_estatistica como False e coluna_estatistica como null.
 """
 
     try:
@@ -281,6 +301,64 @@ REGRAS PARA SQL (quando tipo_solicitacao = 'banco_dados'):
             contexto_dados = "Solicitação de conhecimento geral, cálculo ou tema externo ao banco corporativo. Responda usando sua base de conhecimento analítico."
         else:
             resultado_consulta, erro = executar_query_sqlite(roteamento.sql_query)
+
+            if roteamento.analise_estatistica:
+
+                if erro:
+                    bot.reply_to(
+                        mensagem,
+                        "Não foi possível consultar os dados, senhor."
+                    )
+                    return
+
+                dados = resultado_consulta["dados"]
+                coluna = roteamento.coluna_estatistica
+
+                if not isinstance(dados, list) or not dados or not coluna:
+                    bot.reply_to(
+                        mensagem,
+                        "Não encontrei dados suficientes para realizar essa análise, senhor."
+                    )
+                    return
+
+                titulos = {
+                    "valor_venda": "Análise Estatística de Vendas",
+                    "valor_monetario": "Análise de Indicadores Financeiros",
+                    "variacao": "Análise Estatística de Variações"
+                }
+
+                titulo = titulos.get(coluna, "Análise Estatística")
+
+                resumo, caminho_imagem = gerar_analise_estatistica(
+                    dados,
+                    coluna=coluna,
+                    titulo=titulo
+                )
+
+                texto = (
+                    f"📊 {titulo}\n\n"
+                    f"Quantidade: {resumo['quantidade']}\n"
+                    f"Média: {resumo['media']:.2f}\n"
+                    f"Mediana: {resumo['mediana']:.2f}\n"
+                    f"Desvio padrão: {resumo['desvio_padrao']:.2f}\n"
+                    f"Mínimo: {resumo['minimo']:.2f}\n"
+                    f"Máximo: {resumo['maximo']:.2f}\n"
+                    f"Valores descartados: {resumo['descartados']}\n"
+                    f"Registros isolados: {resultado_consulta['isolados']}\n\n"
+                    "Segue a visualização estatística solicitada, senhor."
+                )
+
+                bot.reply_to(mensagem, texto)
+
+                with open(caminho_imagem, "rb") as foto:
+                    bot.send_photo(
+                        chat_id=mensagem.chat.id,
+                        photo=foto,
+                        caption=titulo
+                    )
+
+                return
+
             if erro:
                 contexto_dados = f"Falha técnica na consulta: {erro}"
             else:
