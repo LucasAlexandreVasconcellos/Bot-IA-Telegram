@@ -11,6 +11,7 @@ from openai import OpenAI
 from pydantic import BaseModel, Field
 from dotenv import load_dotenv
 from datetime import datetime
+from prompt_gateway import montar_prompt_sob_demanda
 
 # Import da camada de qualidade de dados (Integrante 2)
 from qualidade_dados import sanitizar_linhas_consulta
@@ -170,6 +171,9 @@ def criar_grafico_png(dados: EstruturaGrafico) -> io.BytesIO:
 def responder_kpi(mensagem):
     pergunta_usuario = mensagem.text
     hora_atual = datetime.now().strftime("%H:%M")
+
+    gateway = montar_prompt_sob_demanda(pergunta_usuario)
+    prompt_do_sistema = gateway.prompt_sistema
 
     prompt_sql = f"""Você é um especialista em SQLite corporativo.
 Gere um comando SQL SELECT para consultar os dados solicitados pelo usuário com base no esquema abaixo:
