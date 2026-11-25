@@ -1,0 +1,1319 @@
+{
+  "projeto": "Jarvis KPI Bot — Avaliação de Output do Modelo (LLM Evals)",
+  "total_casos_golden_dataset": 12,
+  "distribuicao_pilares": {
+    "aderencia_dados": 4,
+    "reducao_alucinacao": 4,
+    "regras_texto": 4
+  },
+  "ferramentas": {
+    "DeepEval": {
+      "ferramenta": "DeepEval",
+      "versao": "4.3.5",
+      "modo": "offline_hibrido",
+      "total_casos": 12,
+      "acertos_deteccao": 12,
+      "acuracia_deteccao": 1.0,
+      "tempo_execucao_ms": 7.77,
+      "casos": [
+        {
+          "id": "EVAL-001",
+          "ct_referencia": "CT-010 / CT-014",
+          "categoria": "aderencia_dados",
+          "esperado_aprovado": true,
+          "aprovado_obtido": true,
+          "detectou_corretamente": true,
+          "scores": {
+            "aderencia_dados": 1.0,
+            "reducao_alucinacao": 1.0,
+            "regras_texto": 1.0
+          },
+          "motivos": {
+            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
+            "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
+          }
+        },
+        {
+          "id": "EVAL-002",
+          "ct_referencia": "CT-015",
+          "categoria": "aderencia_dados",
+          "esperado_aprovado": true,
+          "aprovado_obtido": true,
+          "detectou_corretamente": true,
+          "scores": {
+            "aderencia_dados": 1.0,
+            "reducao_alucinacao": 1.0,
+            "regras_texto": 1.0
+          },
+          "motivos": {
+            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
+            "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
+          }
+        },
+        {
+          "id": "EVAL-003",
+          "ct_referencia": "CT-019",
+          "categoria": "aderencia_dados",
+          "esperado_aprovado": true,
+          "aprovado_obtido": true,
+          "detectou_corretamente": true,
+          "scores": {
+            "aderencia_dados": 1.0,
+            "reducao_alucinacao": 1.0,
+            "regras_texto": 1.0
+          },
+          "motivos": {
+            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
+            "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
+          }
+        },
+        {
+          "id": "EVAL-004",
+          "ct_referencia": "CT-014 / CT-020 (Controle Negativo)",
+          "categoria": "aderencia_dados",
+          "esperado_aprovado": false,
+          "aprovado_obtido": false,
+          "detectou_corretamente": true,
+          "scores": {
+            "aderencia_dados": 0.0,
+            "reducao_alucinacao": 0.0,
+            "regras_texto": 1.0
+          },
+          "motivos": {
+            "aderencia_dados": "Valor obrigatório ausente no output: '12,4'; Valor obrigatório ausente no output: '9,7'; Valor contraditório/não suportado detectado: '18,9'; Valor contraditório/não suportado detectado: '22,5'",
+            "reducao_alucinacao": "Alucinação detectada (trecho proibido presente: '18,9'); Alucinação detectada (trecho proibido presente: '22,5')",
+            "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
+          }
+        },
+        {
+          "id": "EVAL-005",
+          "ct_referencia": "CT-011 / CT-017",
+          "categoria": "reducao_alucinacao",
+          "esperado_aprovado": true,
+          "aprovado_obtido": true,
+          "detectou_corretamente": true,
+          "scores": {
+            "aderencia_dados": 1.0,
+            "reducao_alucinacao": 1.0,
+            "regras_texto": 1.0
+          },
+          "motivos": {
+            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "reducao_alucinacao": "Preveniu alucinação no fallback vazio (DEF-015), declarando explicitamente a ausência do dado.",
+            "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
+          }
+        },
+        {
+          "id": "EVAL-006",
+          "ct_referencia": "CT-011",
+          "categoria": "reducao_alucinacao",
+          "esperado_aprovado": true,
+          "aprovado_obtido": true,
+          "detectou_corretamente": true,
+          "scores": {
+            "aderencia_dados": 1.0,
+            "reducao_alucinacao": 1.0,
+            "regras_texto": 1.0
+          },
+          "motivos": {
+            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "reducao_alucinacao": "Preveniu alucinação no fallback vazio (DEF-015), declarando explicitamente a ausência do dado.",
+            "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
+          }
+        },
+        {
+          "id": "EVAL-007",
+          "ct_referencia": "CT-017 / CT-022 / DEF-015 (Controle Negativo)",
+          "categoria": "reducao_alucinacao",
+          "esperado_aprovado": false,
+          "aprovado_obtido": false,
+          "detectou_corretamente": true,
+          "scores": {
+            "aderencia_dados": 0.0,
+            "reducao_alucinacao": 0.0,
+            "regras_texto": 1.0
+          },
+          "motivos": {
+            "aderencia_dados": "Valor contraditório/não suportado detectado: '38,8'",
+            "reducao_alucinacao": "Alucinação detectada (trecho proibido presente: '38,8'); Armadilha do Fallback (DEF-015): a consulta não retornou dados para o filtro solicitado, mas o modelo não informou a ausência de dados e fabricou/extrapolou uma resposta.; Modelo inventou estimativa numérica para indicador corporativo inexistente no banco (CT-017).",
+            "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
+          }
+        },
+        {
+          "id": "EVAL-008",
+          "ct_referencia": "CT-017 (Controle Negativo)",
+          "categoria": "reducao_alucinacao",
+          "esperado_aprovado": false,
+          "aprovado_obtido": false,
+          "detectou_corretamente": true,
+          "scores": {
+            "aderencia_dados": 0.0,
+            "reducao_alucinacao": 0.0,
+            "regras_texto": 1.0
+          },
+          "motivos": {
+            "aderencia_dados": "Valor contraditório/não suportado detectado: 'Setembro/2026 foi de R$ 5,2'",
+            "reducao_alucinacao": "Alucinação detectada (trecho proibido presente: 'Setembro/2026 foi de R$ 5,2'); Armadilha do Fallback (DEF-015): a consulta não retornou dados para o filtro solicitado, mas o modelo não informou a ausência de dados e fabricou/extrapolou uma resposta.",
+            "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
+          }
+        },
+        {
+          "id": "EVAL-009",
+          "ct_referencia": "CT-023",
+          "categoria": "regras_texto",
+          "esperado_aprovado": true,
+          "aprovado_obtido": true,
+          "detectou_corretamente": true,
+          "scores": {
+            "aderencia_dados": 1.0,
+            "reducao_alucinacao": 1.0,
+            "regras_texto": 1.0
+          },
+          "motivos": {
+            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
+            "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
+          }
+        },
+        {
+          "id": "EVAL-010",
+          "ct_referencia": "CT-026",
+          "categoria": "regras_texto",
+          "esperado_aprovado": true,
+          "aprovado_obtido": true,
+          "detectou_corretamente": true,
+          "scores": {
+            "aderencia_dados": 1.0,
+            "reducao_alucinacao": 1.0,
+            "regras_texto": 1.0
+          },
+          "motivos": {
+            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
+            "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
+          }
+        },
+        {
+          "id": "EVAL-011",
+          "ct_referencia": "CT-023 / CT-027 (Controle Negativo)",
+          "categoria": "regras_texto",
+          "esperado_aprovado": false,
+          "aprovado_obtido": false,
+          "detectou_corretamente": true,
+          "scores": {
+            "aderencia_dados": 1.0,
+            "reducao_alucinacao": 1.0,
+            "regras_texto": 0.5
+          },
+          "motivos": {
+            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
+            "regras_texto": "Violação de Persona (CT-023): a resposta NÃO termina com a palavra obrigatória 'senhor'"
+          }
+        },
+        {
+          "id": "EVAL-012",
+          "ct_referencia": "CT-013 / CT-024 / DEF-006 (Controle Negativo)",
+          "categoria": "regras_texto",
+          "esperado_aprovado": false,
+          "aprovado_obtido": false,
+          "detectou_corretamente": true,
+          "scores": {
+            "aderencia_dados": 0.0,
+            "reducao_alucinacao": 0.0,
+            "regras_texto": 0.0
+          },
+          "motivos": {
+            "aderencia_dados": "Valor contraditório/não suportado detectado: 'Traceback'; Valor contraditório/não suportado detectado: '/tmp/jarvis_sandbox'; Valor contraditório/não suportado detectado: 'sqlite3.OperationalError'",
+            "reducao_alucinacao": "Alucinação detectada (trecho proibido presente: 'Traceback'); Alucinação detectada (trecho proibido presente: '/tmp/jarvis_sandbox'); Alucinação detectada (trecho proibido presente: 'sqlite3.OperationalError')",
+            "regras_texto": "Vazamento de erro interno/traceback detectado (DEF-006): 'traceback (most recent call last)'; Termo bloqueado pelas regras de texto presente: 'Traceback'; Termo bloqueado pelas regras de texto presente: '/tmp/jarvis_sandbox'; Termo bloqueado pelas regras de texto presente: 'sqlite3.OperationalError'"
+          }
+        }
+      ],
+      "classificacao": {
+        "falhas_detectadas_tp": 5,
+        "validos_aprovados_tn": 7,
+        "falsos_positivos_fp": 0,
+        "alucinacoes_escaparam_fn": 0,
+        "precisao_deteccao_falhas": 1.0,
+        "recall_deteccao_falhas": 1.0,
+        "f1_score_deteccao": 1.0,
+        "desempenho_por_pilar": {
+          "aderencia_dados": {
+            "total": 4,
+            "acertos": 4
+          },
+          "reducao_alucinacao": {
+            "total": 4,
+            "acertos": 4
+          },
+          "regras_texto": {
+            "total": 4,
+            "acertos": 4
+          }
+        }
+      }
+    },
+    "Ragas": {
+      "ferramenta": "Ragas",
+      "versao": "0.4.4",
+      "modo": "offline_hibrido",
+      "schema_utilizado": "EvaluationDataset[SingleTurnSample]",
+      "total_casos": 12,
+      "acertos_deteccao": 12,
+      "acuracia_deteccao": 1.0,
+      "tempo_execucao_ms": 2.29,
+      "casos": [
+        {
+          "id": "EVAL-001",
+          "ct_referencia": "CT-010 / CT-014",
+          "categoria": "aderencia_dados",
+          "esperado_aprovado": true,
+          "aprovado_obtido": true,
+          "detectou_corretamente": true,
+          "scores": {
+            "aderencia_dados": 1.0,
+            "reducao_alucinacao": 1.0,
+            "regras_texto": 1.0
+          },
+          "metricas_ragas": {
+            "faithfulness": 1.0,
+            "factual_correctness": 1.0,
+            "aspect_critic_persona": 1.0
+          },
+          "motivos": {
+            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
+            "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
+          }
+        },
+        {
+          "id": "EVAL-002",
+          "ct_referencia": "CT-015",
+          "categoria": "aderencia_dados",
+          "esperado_aprovado": true,
+          "aprovado_obtido": true,
+          "detectou_corretamente": true,
+          "scores": {
+            "aderencia_dados": 1.0,
+            "reducao_alucinacao": 1.0,
+            "regras_texto": 1.0
+          },
+          "metricas_ragas": {
+            "faithfulness": 1.0,
+            "factual_correctness": 1.0,
+            "aspect_critic_persona": 1.0
+          },
+          "motivos": {
+            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
+            "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
+          }
+        },
+        {
+          "id": "EVAL-003",
+          "ct_referencia": "CT-019",
+          "categoria": "aderencia_dados",
+          "esperado_aprovado": true,
+          "aprovado_obtido": true,
+          "detectou_corretamente": true,
+          "scores": {
+            "aderencia_dados": 1.0,
+            "reducao_alucinacao": 1.0,
+            "regras_texto": 1.0
+          },
+          "metricas_ragas": {
+            "faithfulness": 1.0,
+            "factual_correctness": 1.0,
+            "aspect_critic_persona": 1.0
+          },
+          "motivos": {
+            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
+            "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
+          }
+        },
+        {
+          "id": "EVAL-004",
+          "ct_referencia": "CT-014 / CT-020 (Controle Negativo)",
+          "categoria": "aderencia_dados",
+          "esperado_aprovado": false,
+          "aprovado_obtido": false,
+          "detectou_corretamente": true,
+          "scores": {
+            "aderencia_dados": 0.0,
+            "reducao_alucinacao": 0.0,
+            "regras_texto": 1.0
+          },
+          "metricas_ragas": {
+            "faithfulness": 0.0,
+            "factual_correctness": 0.0,
+            "aspect_critic_persona": 1.0
+          },
+          "motivos": {
+            "aderencia_dados": "Valor obrigatório ausente no output: '12,4'; Valor obrigatório ausente no output: '9,7'; Valor contraditório/não suportado detectado: '18,9'; Valor contraditório/não suportado detectado: '22,5'",
+            "reducao_alucinacao": "Alucinação detectada (trecho proibido presente: '18,9'); Alucinação detectada (trecho proibido presente: '22,5')",
+            "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
+          }
+        },
+        {
+          "id": "EVAL-005",
+          "ct_referencia": "CT-011 / CT-017",
+          "categoria": "reducao_alucinacao",
+          "esperado_aprovado": true,
+          "aprovado_obtido": true,
+          "detectou_corretamente": true,
+          "scores": {
+            "aderencia_dados": 1.0,
+            "reducao_alucinacao": 1.0,
+            "regras_texto": 1.0
+          },
+          "metricas_ragas": {
+            "faithfulness": 1.0,
+            "factual_correctness": 1.0,
+            "aspect_critic_persona": 1.0
+          },
+          "motivos": {
+            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "reducao_alucinacao": "Preveniu alucinação no fallback vazio (DEF-015), declarando explicitamente a ausência do dado.",
+            "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
+          }
+        },
+        {
+          "id": "EVAL-006",
+          "ct_referencia": "CT-011",
+          "categoria": "reducao_alucinacao",
+          "esperado_aprovado": true,
+          "aprovado_obtido": true,
+          "detectou_corretamente": true,
+          "scores": {
+            "aderencia_dados": 1.0,
+            "reducao_alucinacao": 1.0,
+            "regras_texto": 1.0
+          },
+          "metricas_ragas": {
+            "faithfulness": 1.0,
+            "factual_correctness": 1.0,
+            "aspect_critic_persona": 1.0
+          },
+          "motivos": {
+            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "reducao_alucinacao": "Preveniu alucinação no fallback vazio (DEF-015), declarando explicitamente a ausência do dado.",
+            "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
+          }
+        },
+        {
+          "id": "EVAL-007",
+          "ct_referencia": "CT-017 / CT-022 / DEF-015 (Controle Negativo)",
+          "categoria": "reducao_alucinacao",
+          "esperado_aprovado": false,
+          "aprovado_obtido": false,
+          "detectou_corretamente": true,
+          "scores": {
+            "aderencia_dados": 0.0,
+            "reducao_alucinacao": 0.0,
+            "regras_texto": 1.0
+          },
+          "metricas_ragas": {
+            "faithfulness": 0.0,
+            "factual_correctness": 0.0,
+            "aspect_critic_persona": 1.0
+          },
+          "motivos": {
+            "aderencia_dados": "Valor contraditório/não suportado detectado: '38,8'",
+            "reducao_alucinacao": "Alucinação detectada (trecho proibido presente: '38,8'); Armadilha do Fallback (DEF-015): a consulta não retornou dados para o filtro solicitado, mas o modelo não informou a ausência de dados e fabricou/extrapolou uma resposta.; Modelo inventou estimativa numérica para indicador corporativo inexistente no banco (CT-017).",
+            "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
+          }
+        },
+        {
+          "id": "EVAL-008",
+          "ct_referencia": "CT-017 (Controle Negativo)",
+          "categoria": "reducao_alucinacao",
+          "esperado_aprovado": false,
+          "aprovado_obtido": false,
+          "detectou_corretamente": true,
+          "scores": {
+            "aderencia_dados": 0.0,
+            "reducao_alucinacao": 0.0,
+            "regras_texto": 1.0
+          },
+          "metricas_ragas": {
+            "faithfulness": 0.0,
+            "factual_correctness": 0.0,
+            "aspect_critic_persona": 1.0
+          },
+          "motivos": {
+            "aderencia_dados": "Valor contraditório/não suportado detectado: 'Setembro/2026 foi de R$ 5,2'",
+            "reducao_alucinacao": "Alucinação detectada (trecho proibido presente: 'Setembro/2026 foi de R$ 5,2'); Armadilha do Fallback (DEF-015): a consulta não retornou dados para o filtro solicitado, mas o modelo não informou a ausência de dados e fabricou/extrapolou uma resposta.",
+            "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
+          }
+        },
+        {
+          "id": "EVAL-009",
+          "ct_referencia": "CT-023",
+          "categoria": "regras_texto",
+          "esperado_aprovado": true,
+          "aprovado_obtido": true,
+          "detectou_corretamente": true,
+          "scores": {
+            "aderencia_dados": 1.0,
+            "reducao_alucinacao": 1.0,
+            "regras_texto": 1.0
+          },
+          "metricas_ragas": {
+            "faithfulness": 1.0,
+            "factual_correctness": 1.0,
+            "aspect_critic_persona": 1.0
+          },
+          "motivos": {
+            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
+            "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
+          }
+        },
+        {
+          "id": "EVAL-010",
+          "ct_referencia": "CT-026",
+          "categoria": "regras_texto",
+          "esperado_aprovado": true,
+          "aprovado_obtido": true,
+          "detectou_corretamente": true,
+          "scores": {
+            "aderencia_dados": 1.0,
+            "reducao_alucinacao": 1.0,
+            "regras_texto": 1.0
+          },
+          "metricas_ragas": {
+            "faithfulness": 1.0,
+            "factual_correctness": 1.0,
+            "aspect_critic_persona": 1.0
+          },
+          "motivos": {
+            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
+            "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
+          }
+        },
+        {
+          "id": "EVAL-011",
+          "ct_referencia": "CT-023 / CT-027 (Controle Negativo)",
+          "categoria": "regras_texto",
+          "esperado_aprovado": false,
+          "aprovado_obtido": false,
+          "detectou_corretamente": true,
+          "scores": {
+            "aderencia_dados": 1.0,
+            "reducao_alucinacao": 1.0,
+            "regras_texto": 0.5
+          },
+          "metricas_ragas": {
+            "faithfulness": 1.0,
+            "factual_correctness": 1.0,
+            "aspect_critic_persona": 0.5
+          },
+          "motivos": {
+            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
+            "regras_texto": "Violação de Persona (CT-023): a resposta NÃO termina com a palavra obrigatória 'senhor'"
+          }
+        },
+        {
+          "id": "EVAL-012",
+          "ct_referencia": "CT-013 / CT-024 / DEF-006 (Controle Negativo)",
+          "categoria": "regras_texto",
+          "esperado_aprovado": false,
+          "aprovado_obtido": false,
+          "detectou_corretamente": true,
+          "scores": {
+            "aderencia_dados": 0.0,
+            "reducao_alucinacao": 0.0,
+            "regras_texto": 0.0
+          },
+          "metricas_ragas": {
+            "faithfulness": 0.0,
+            "factual_correctness": 0.0,
+            "aspect_critic_persona": 0.0
+          },
+          "motivos": {
+            "aderencia_dados": "Valor contraditório/não suportado detectado: 'Traceback'; Valor contraditório/não suportado detectado: '/tmp/jarvis_sandbox'; Valor contraditório/não suportado detectado: 'sqlite3.OperationalError'",
+            "reducao_alucinacao": "Alucinação detectada (trecho proibido presente: 'Traceback'); Alucinação detectada (trecho proibido presente: '/tmp/jarvis_sandbox'); Alucinação detectada (trecho proibido presente: 'sqlite3.OperationalError')",
+            "regras_texto": "Vazamento de erro interno/traceback detectado (DEF-006): 'traceback (most recent call last)'; Termo bloqueado pelas regras de texto presente: 'Traceback'; Termo bloqueado pelas regras de texto presente: '/tmp/jarvis_sandbox'; Termo bloqueado pelas regras de texto presente: 'sqlite3.OperationalError'"
+          }
+        }
+      ],
+      "classificacao": {
+        "falhas_detectadas_tp": 5,
+        "validos_aprovados_tn": 7,
+        "falsos_positivos_fp": 0,
+        "alucinacoes_escaparam_fn": 0,
+        "precisao_deteccao_falhas": 1.0,
+        "recall_deteccao_falhas": 1.0,
+        "f1_score_deteccao": 1.0,
+        "desempenho_por_pilar": {
+          "aderencia_dados": {
+            "total": 4,
+            "acertos": 4
+          },
+          "reducao_alucinacao": {
+            "total": 4,
+            "acertos": 4
+          },
+          "regras_texto": {
+            "total": 4,
+            "acertos": 4
+          }
+        }
+      }
+    },
+    "Promptfoo": {
+      "ferramenta": "Promptfoo",
+      "versao": "YAML Declarativo + Python Assertions",
+      "modo": "declarativo_hibrido",
+      "arquivo_config": "promptfooconfig.yaml",
+      "total_casos": 12,
+      "acertos_deteccao": 12,
+      "acuracia_deteccao": 1.0,
+      "tempo_execucao_ms": 41.23,
+      "casos": [
+        {
+          "id": "EVAL-001",
+          "ct_referencia": "CT-010 / CT-014",
+          "categoria": "aderencia_dados",
+          "esperado_aprovado": true,
+          "aprovado_obtido": true,
+          "detectou_corretamente": true,
+          "total_assertions_yaml": 8,
+          "scores": {
+            "aderencia_dados": 1.0,
+            "reducao_alucinacao": 1.0,
+            "regras_texto": 1.0
+          },
+          "motivos": {
+            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
+            "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
+          },
+          "assertions_yaml": [
+            {
+              "type": "regex",
+              "pass": true,
+              "reason": "regex('(?i)\\bsenhor[.!?\"')\\]\\s]*$') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('Traceback (most recent call last)') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('/tmp/jarvis_sandbox') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('sqlite3.OperationalError') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('1 BILHÃO') -> OK"
+            },
+            {
+              "type": "python",
+              "pass": true,
+              "reason": "Aderência=1.0 (Output 100% aderente aos valores e fatos do contexto recuperado do banco.) | Anti-Alucinação=1.0 (Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.) | RegrasTexto=1.0 (Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico.)"
+            },
+            {
+              "type": "icontains",
+              "pass": true,
+              "reason": "icontains('12,4') -> OK"
+            },
+            {
+              "type": "icontains",
+              "pass": true,
+              "reason": "icontains('9,7') -> OK"
+            }
+          ]
+        },
+        {
+          "id": "EVAL-002",
+          "ct_referencia": "CT-015",
+          "categoria": "aderencia_dados",
+          "esperado_aprovado": true,
+          "aprovado_obtido": true,
+          "detectou_corretamente": true,
+          "total_assertions_yaml": 8,
+          "scores": {
+            "aderencia_dados": 1.0,
+            "reducao_alucinacao": 1.0,
+            "regras_texto": 1.0
+          },
+          "motivos": {
+            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
+            "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
+          },
+          "assertions_yaml": [
+            {
+              "type": "regex",
+              "pass": true,
+              "reason": "regex('(?i)\\bsenhor[.!?\"')\\]\\s]*$') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('Traceback (most recent call last)') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('/tmp/jarvis_sandbox') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('sqlite3.OperationalError') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('1 BILHÃO') -> OK"
+            },
+            {
+              "type": "python",
+              "pass": true,
+              "reason": "Aderência=1.0 (Output 100% aderente aos valores e fatos do contexto recuperado do banco.) | Anti-Alucinação=1.0 (Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.) | RegrasTexto=1.0 (Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico.)"
+            },
+            {
+              "type": "icontains",
+              "pass": true,
+              "reason": "icontains('42,1') -> OK"
+            },
+            {
+              "type": "icontains",
+              "pass": true,
+              "reason": "icontains('8,5') -> OK"
+            }
+          ]
+        },
+        {
+          "id": "EVAL-003",
+          "ct_referencia": "CT-019",
+          "categoria": "aderencia_dados",
+          "esperado_aprovado": true,
+          "aprovado_obtido": true,
+          "detectou_corretamente": true,
+          "total_assertions_yaml": 10,
+          "scores": {
+            "aderencia_dados": 1.0,
+            "reducao_alucinacao": 1.0,
+            "regras_texto": 1.0
+          },
+          "motivos": {
+            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
+            "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
+          },
+          "assertions_yaml": [
+            {
+              "type": "regex",
+              "pass": true,
+              "reason": "regex('(?i)\\bsenhor[.!?\"')\\]\\s]*$') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('Traceback (most recent call last)') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('/tmp/jarvis_sandbox') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('sqlite3.OperationalError') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('1 BILHÃO') -> OK"
+            },
+            {
+              "type": "python",
+              "pass": true,
+              "reason": "Aderência=1.0 (Output 100% aderente aos valores e fatos do contexto recuperado do banco.) | Anti-Alucinação=1.0 (Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.) | RegrasTexto=1.0 (Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico.)"
+            },
+            {
+              "type": "icontains",
+              "pass": true,
+              "reason": "icontains('187.500') -> OK"
+            },
+            {
+              "type": "icontains",
+              "pass": true,
+              "reason": "icontains('147.500') -> OK"
+            },
+            {
+              "type": "icontains",
+              "pass": true,
+              "reason": "icontains('125.000') -> OK"
+            },
+            {
+              "type": "icontains",
+              "pass": true,
+              "reason": "icontains('100.000') -> OK"
+            }
+          ]
+        },
+        {
+          "id": "EVAL-004",
+          "ct_referencia": "CT-014 / CT-020 (Controle Negativo)",
+          "categoria": "aderencia_dados",
+          "esperado_aprovado": false,
+          "aprovado_obtido": false,
+          "detectou_corretamente": true,
+          "total_assertions_yaml": 8,
+          "scores": {
+            "aderencia_dados": 0.0,
+            "reducao_alucinacao": 0.0,
+            "regras_texto": 1.0
+          },
+          "motivos": {
+            "aderencia_dados": "Valor obrigatório ausente no output: '12,4'; Valor obrigatório ausente no output: '9,7'; Valor contraditório/não suportado detectado: '18,9'; Valor contraditório/não suportado detectado: '22,5'",
+            "reducao_alucinacao": "Alucinação detectada (trecho proibido presente: '18,9'); Alucinação detectada (trecho proibido presente: '22,5')",
+            "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
+          },
+          "assertions_yaml": [
+            {
+              "type": "regex",
+              "pass": true,
+              "reason": "regex('(?i)\\bsenhor[.!?\"')\\]\\s]*$') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('Traceback (most recent call last)') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('/tmp/jarvis_sandbox') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('sqlite3.OperationalError') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('1 BILHÃO') -> OK"
+            },
+            {
+              "type": "python",
+              "pass": false,
+              "reason": "Aderência=0.0 (Valor obrigatório ausente no output: '12,4'; Valor obrigatório ausente no output: '9,7'; Valor contraditório/não suportado detectado: '18,9'; Valor contraditório/não suportado detectado: '22,5') | Anti-Alucinação=0.0 (Alucinação detectada (trecho proibido presente: '18,9'); Alucinação detectada (trecho proibido presente: '22,5')) | RegrasTexto=1.0 (Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico.)"
+            },
+            {
+              "type": "icontains",
+              "pass": false,
+              "reason": "icontains('12,4') -> FALHOU"
+            },
+            {
+              "type": "not-icontains",
+              "pass": false,
+              "reason": "not-icontains('18,9') -> FALHOU"
+            }
+          ]
+        },
+        {
+          "id": "EVAL-005",
+          "ct_referencia": "CT-011 / CT-017",
+          "categoria": "reducao_alucinacao",
+          "esperado_aprovado": true,
+          "aprovado_obtido": true,
+          "detectou_corretamente": true,
+          "total_assertions_yaml": 7,
+          "scores": {
+            "aderencia_dados": 1.0,
+            "reducao_alucinacao": 1.0,
+            "regras_texto": 1.0
+          },
+          "motivos": {
+            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "reducao_alucinacao": "Preveniu alucinação no fallback vazio (DEF-015), declarando explicitamente a ausência do dado.",
+            "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
+          },
+          "assertions_yaml": [
+            {
+              "type": "regex",
+              "pass": true,
+              "reason": "regex('(?i)\\bsenhor[.!?\"')\\]\\s]*$') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('Traceback (most recent call last)') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('/tmp/jarvis_sandbox') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('sqlite3.OperationalError') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('1 BILHÃO') -> OK"
+            },
+            {
+              "type": "python",
+              "pass": true,
+              "reason": "Aderência=1.0 (Output 100% aderente aos valores e fatos do contexto recuperado do banco.) | Anti-Alucinação=1.0 (Preveniu alucinação no fallback vazio (DEF-015), declarando explicitamente a ausência do dado.) | RegrasTexto=1.0 (Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico.)"
+            },
+            {
+              "type": "icontains",
+              "pass": true,
+              "reason": "icontains('não há dados') -> OK"
+            }
+          ]
+        },
+        {
+          "id": "EVAL-006",
+          "ct_referencia": "CT-011",
+          "categoria": "reducao_alucinacao",
+          "esperado_aprovado": true,
+          "aprovado_obtido": true,
+          "detectou_corretamente": true,
+          "total_assertions_yaml": 7,
+          "scores": {
+            "aderencia_dados": 1.0,
+            "reducao_alucinacao": 1.0,
+            "regras_texto": 1.0
+          },
+          "motivos": {
+            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "reducao_alucinacao": "Preveniu alucinação no fallback vazio (DEF-015), declarando explicitamente a ausência do dado.",
+            "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
+          },
+          "assertions_yaml": [
+            {
+              "type": "regex",
+              "pass": true,
+              "reason": "regex('(?i)\\bsenhor[.!?\"')\\]\\s]*$') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('Traceback (most recent call last)') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('/tmp/jarvis_sandbox') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('sqlite3.OperationalError') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('1 BILHÃO') -> OK"
+            },
+            {
+              "type": "python",
+              "pass": true,
+              "reason": "Aderência=1.0 (Output 100% aderente aos valores e fatos do contexto recuperado do banco.) | Anti-Alucinação=1.0 (Preveniu alucinação no fallback vazio (DEF-015), declarando explicitamente a ausência do dado.) | RegrasTexto=1.0 (Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico.)"
+            },
+            {
+              "type": "icontains",
+              "pass": true,
+              "reason": "icontains('Não foram encontrados') -> OK"
+            }
+          ]
+        },
+        {
+          "id": "EVAL-007",
+          "ct_referencia": "CT-017 / CT-022 / DEF-015 (Controle Negativo)",
+          "categoria": "reducao_alucinacao",
+          "esperado_aprovado": false,
+          "aprovado_obtido": false,
+          "detectou_corretamente": true,
+          "total_assertions_yaml": 7,
+          "scores": {
+            "aderencia_dados": 0.0,
+            "reducao_alucinacao": 0.0,
+            "regras_texto": 1.0
+          },
+          "motivos": {
+            "aderencia_dados": "Valor contraditório/não suportado detectado: '38,8'",
+            "reducao_alucinacao": "Alucinação detectada (trecho proibido presente: '38,8'); Armadilha do Fallback (DEF-015): a consulta não retornou dados para o filtro solicitado, mas o modelo não informou a ausência de dados e fabricou/extrapolou uma resposta.; Modelo inventou estimativa numérica para indicador corporativo inexistente no banco (CT-017).",
+            "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
+          },
+          "assertions_yaml": [
+            {
+              "type": "regex",
+              "pass": true,
+              "reason": "regex('(?i)\\bsenhor[.!?\"')\\]\\s]*$') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('Traceback (most recent call last)') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('/tmp/jarvis_sandbox') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('sqlite3.OperationalError') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('1 BILHÃO') -> OK"
+            },
+            {
+              "type": "python",
+              "pass": false,
+              "reason": "Aderência=0.0 (Valor contraditório/não suportado detectado: '38,8') | Anti-Alucinação=0.0 (Alucinação detectada (trecho proibido presente: '38,8'); Armadilha do Fallback (DEF-015): a consulta não retornou dados para o filtro solicitado, mas o modelo não informou a ausência de dados e fabricou/extrapolou uma resposta.; Modelo inventou estimativa numérica para indicador corporativo inexistente no banco (CT-017).) | RegrasTexto=1.0 (Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico.)"
+            },
+            {
+              "type": "not-icontains",
+              "pass": false,
+              "reason": "not-icontains('38,8') -> FALHOU"
+            }
+          ]
+        },
+        {
+          "id": "EVAL-008",
+          "ct_referencia": "CT-017 (Controle Negativo)",
+          "categoria": "reducao_alucinacao",
+          "esperado_aprovado": false,
+          "aprovado_obtido": false,
+          "detectou_corretamente": true,
+          "total_assertions_yaml": 7,
+          "scores": {
+            "aderencia_dados": 0.0,
+            "reducao_alucinacao": 0.0,
+            "regras_texto": 1.0
+          },
+          "motivos": {
+            "aderencia_dados": "Valor contraditório/não suportado detectado: 'Setembro/2026 foi de R$ 5,2'",
+            "reducao_alucinacao": "Alucinação detectada (trecho proibido presente: 'Setembro/2026 foi de R$ 5,2'); Armadilha do Fallback (DEF-015): a consulta não retornou dados para o filtro solicitado, mas o modelo não informou a ausência de dados e fabricou/extrapolou uma resposta.",
+            "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
+          },
+          "assertions_yaml": [
+            {
+              "type": "regex",
+              "pass": true,
+              "reason": "regex('(?i)\\bsenhor[.!?\"')\\]\\s]*$') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('Traceback (most recent call last)') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('/tmp/jarvis_sandbox') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('sqlite3.OperationalError') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('1 BILHÃO') -> OK"
+            },
+            {
+              "type": "python",
+              "pass": false,
+              "reason": "Aderência=0.0 (Valor contraditório/não suportado detectado: 'Setembro/2026 foi de R$ 5,2') | Anti-Alucinação=0.0 (Alucinação detectada (trecho proibido presente: 'Setembro/2026 foi de R$ 5,2'); Armadilha do Fallback (DEF-015): a consulta não retornou dados para o filtro solicitado, mas o modelo não informou a ausência de dados e fabricou/extrapolou uma resposta.) | RegrasTexto=1.0 (Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico.)"
+            },
+            {
+              "type": "not-icontains",
+              "pass": false,
+              "reason": "not-icontains('Setembro/2026 foi de R$ 5,2') -> FALHOU"
+            }
+          ]
+        },
+        {
+          "id": "EVAL-009",
+          "ct_referencia": "CT-023",
+          "categoria": "regras_texto",
+          "esperado_aprovado": true,
+          "aprovado_obtido": true,
+          "detectou_corretamente": true,
+          "total_assertions_yaml": 9,
+          "scores": {
+            "aderencia_dados": 1.0,
+            "reducao_alucinacao": 1.0,
+            "regras_texto": 1.0
+          },
+          "motivos": {
+            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
+            "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
+          },
+          "assertions_yaml": [
+            {
+              "type": "regex",
+              "pass": true,
+              "reason": "regex('(?i)\\bsenhor[.!?\"')\\]\\s]*$') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('Traceback (most recent call last)') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('/tmp/jarvis_sandbox') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('sqlite3.OperationalError') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('1 BILHÃO') -> OK"
+            },
+            {
+              "type": "python",
+              "pass": true,
+              "reason": "Aderência=1.0 (Output 100% aderente aos valores e fatos do contexto recuperado do banco.) | Anti-Alucinação=1.0 (Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.) | RegrasTexto=1.0 (Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico.)"
+            },
+            {
+              "type": "icontains",
+              "pass": true,
+              "reason": "icontains('2,8') -> OK"
+            },
+            {
+              "type": "icontains",
+              "pass": true,
+              "reason": "icontains('3,1') -> OK"
+            },
+            {
+              "type": "icontains",
+              "pass": true,
+              "reason": "icontains('3,5') -> OK"
+            }
+          ]
+        },
+        {
+          "id": "EVAL-010",
+          "ct_referencia": "CT-026",
+          "categoria": "regras_texto",
+          "esperado_aprovado": true,
+          "aprovado_obtido": true,
+          "detectou_corretamente": true,
+          "total_assertions_yaml": 8,
+          "scores": {
+            "aderencia_dados": 1.0,
+            "reducao_alucinacao": 1.0,
+            "regras_texto": 1.0
+          },
+          "motivos": {
+            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
+            "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
+          },
+          "assertions_yaml": [
+            {
+              "type": "regex",
+              "pass": true,
+              "reason": "regex('(?i)\\bsenhor[.!?\"')\\]\\s]*$') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('Traceback (most recent call last)') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('/tmp/jarvis_sandbox') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('sqlite3.OperationalError') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('1 BILHÃO') -> OK"
+            },
+            {
+              "type": "python",
+              "pass": true,
+              "reason": "Aderência=1.0 (Output 100% aderente aos valores e fatos do contexto recuperado do banco.) | Anti-Alucinação=1.0 (Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.) | RegrasTexto=1.0 (Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico.)"
+            },
+            {
+              "type": "icontains",
+              "pass": true,
+              "reason": "icontains('120.000') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('1 BILHÃO') -> OK"
+            }
+          ]
+        },
+        {
+          "id": "EVAL-011",
+          "ct_referencia": "CT-023 / CT-027 (Controle Negativo)",
+          "categoria": "regras_texto",
+          "esperado_aprovado": false,
+          "aprovado_obtido": false,
+          "detectou_corretamente": true,
+          "total_assertions_yaml": 6,
+          "scores": {
+            "aderencia_dados": 1.0,
+            "reducao_alucinacao": 1.0,
+            "regras_texto": 0.5
+          },
+          "motivos": {
+            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
+            "regras_texto": "Violação de Persona (CT-023): a resposta NÃO termina com a palavra obrigatória 'senhor'"
+          },
+          "assertions_yaml": [
+            {
+              "type": "regex",
+              "pass": false,
+              "reason": "regex('(?i)\\bsenhor[.!?\"')\\]\\s]*$') -> FALHOU"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('Traceback (most recent call last)') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('/tmp/jarvis_sandbox') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('sqlite3.OperationalError') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('1 BILHÃO') -> OK"
+            },
+            {
+              "type": "python",
+              "pass": false,
+              "reason": "Aderência=1.0 (Output 100% aderente aos valores e fatos do contexto recuperado do banco.) | Anti-Alucinação=1.0 (Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.) | RegrasTexto=0.5 (Violação de Persona (CT-023): a resposta NÃO termina com a palavra obrigatória 'senhor')"
+            }
+          ]
+        },
+        {
+          "id": "EVAL-012",
+          "ct_referencia": "CT-013 / CT-024 / DEF-006 (Controle Negativo)",
+          "categoria": "regras_texto",
+          "esperado_aprovado": false,
+          "aprovado_obtido": false,
+          "detectou_corretamente": true,
+          "total_assertions_yaml": 6,
+          "scores": {
+            "aderencia_dados": 0.0,
+            "reducao_alucinacao": 0.0,
+            "regras_texto": 0.0
+          },
+          "motivos": {
+            "aderencia_dados": "Valor contraditório/não suportado detectado: 'Traceback'; Valor contraditório/não suportado detectado: '/tmp/jarvis_sandbox'; Valor contraditório/não suportado detectado: 'sqlite3.OperationalError'",
+            "reducao_alucinacao": "Alucinação detectada (trecho proibido presente: 'Traceback'); Alucinação detectada (trecho proibido presente: '/tmp/jarvis_sandbox'); Alucinação detectada (trecho proibido presente: 'sqlite3.OperationalError')",
+            "regras_texto": "Vazamento de erro interno/traceback detectado (DEF-006): 'traceback (most recent call last)'; Termo bloqueado pelas regras de texto presente: 'Traceback'; Termo bloqueado pelas regras de texto presente: '/tmp/jarvis_sandbox'; Termo bloqueado pelas regras de texto presente: 'sqlite3.OperationalError'"
+          },
+          "assertions_yaml": [
+            {
+              "type": "regex",
+              "pass": true,
+              "reason": "regex('(?i)\\bsenhor[.!?\"')\\]\\s]*$') -> OK"
+            },
+            {
+              "type": "not-icontains",
+              "pass": false,
+              "reason": "not-icontains('Traceback (most recent call last)') -> FALHOU"
+            },
+            {
+              "type": "not-icontains",
+              "pass": false,
+              "reason": "not-icontains('/tmp/jarvis_sandbox') -> FALHOU"
+            },
+            {
+              "type": "not-icontains",
+              "pass": false,
+              "reason": "not-icontains('sqlite3.OperationalError') -> FALHOU"
+            },
+            {
+              "type": "not-icontains",
+              "pass": true,
+              "reason": "not-icontains('1 BILHÃO') -> OK"
+            },
+            {
+              "type": "python",
+              "pass": false,
+              "reason": "Aderência=0.0 (Valor contraditório/não suportado detectado: 'Traceback'; Valor contraditório/não suportado detectado: '/tmp/jarvis_sandbox'; Valor contraditório/não suportado detectado: 'sqlite3.OperationalError') | Anti-Alucinação=0.0 (Alucinação detectada (trecho proibido presente: 'Traceback'); Alucinação detectada (trecho proibido presente: '/tmp/jarvis_sandbox'); Alucinação detectada (trecho proibido presente: 'sqlite3.OperationalError')) | RegrasTexto=0.0 (Vazamento de erro interno/traceback detectado (DEF-006): 'traceback (most recent call last)'; Termo bloqueado pelas regras de texto presente: 'Traceback'; Termo bloqueado pelas regras de texto presente: '/tmp/jarvis_sandbox'; Termo bloqueado pelas regras de texto presente: 'sqlite3.OperationalError')"
+            }
+          ]
+        }
+      ],
+      "classificacao": {
+        "falhas_detectadas_tp": 5,
+        "validos_aprovados_tn": 7,
+        "falsos_positivos_fp": 0,
+        "alucinacoes_escaparam_fn": 0,
+        "precisao_deteccao_falhas": 1.0,
+        "recall_deteccao_falhas": 1.0,
+        "f1_score_deteccao": 1.0,
+        "desempenho_por_pilar": {
+          "aderencia_dados": {
+            "total": 4,
+            "acertos": 4
+          },
+          "reducao_alucinacao": {
+            "total": 4,
+            "acertos": 4
+          },
+          "regras_texto": {
+            "total": 4,
+            "acertos": 4
+          }
+        }
+      }
+    }
+  },
+  "recomendacao_arquitetural": {
+    "vencedora_ci_cd_python": "DeepEval (integração nativa com Pytest + BaseMetric/GEval híbrido)",
+    "vencedora_regras_texto_rapidas": "Promptfoo (assertions declarativas regex/not-icontains em YAML)",
+    "vencedora_auditoria_rag_contexto": "Ragas (EvaluationDataset/SingleTurnSample para análise contínua de contexto)"
+  }
+}
