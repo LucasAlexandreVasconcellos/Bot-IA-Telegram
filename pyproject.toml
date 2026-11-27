@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jarvis-kpi-bot"
+version = "2.0.0"
+description = "Assistente executivo conversacional no Telegram para consulta segura de KPIs corporativos via MCP, SQLGlot, Qualidade de Dados e Sandbox."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "pyTelegramBotAPI>=4.22.0",
+    "openai>=1.50.0",
+    "pydantic>=2.7.0",
+    "python-dotenv>=1.0.1",
+    "matplotlib>=3.8.0",
+    "numpy>=1.26.0",
+    "sqlglot>=25.0.0",
+    "mcp>=1.2.0",
+]
+
+[project.optional-dependencies]
+postgres = [
+    "psycopg2-binary>=2.9.9",
+]
+evals = [
+    "pyyaml>=6.0.1",
+    "deepeval>=1.0.0",
+    "ragas>=0.2.0",
+]
+dev = [
+    "pytest>=8.0.0",
+    "pyyaml>=6.0.1",
+]
+
+[project.scripts]
+jarvis-bot = "jarvis_bot.telegram_bot:iniciar_bot"
+jarvis-mcp = "jarvis_bot.mcp_server:iniciar_servidor_mcp"
+jarvis-seed = "jarvis_bot.seed:main"
+
+[tool.setuptools.packages.find]
+include = ["jarvis_bot*", "sandbox_ambiente*", "evals*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "test_qualidade_dados.py"]
+python_files = ["test_*.py"]

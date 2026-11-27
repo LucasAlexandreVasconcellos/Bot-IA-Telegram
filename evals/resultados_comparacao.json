@@ -9,12 +9,12 @@
   "ferramentas": {
     "DeepEval": {
       "ferramenta": "DeepEval",
-      "versao": "4.3.5",
+      "versao": "compat-offline (deepeval opcional)",
       "modo": "offline_hibrido",
       "total_casos": 12,
       "acertos_deteccao": 12,
       "acuracia_deteccao": 1.0,
-      "tempo_execucao_ms": 7.77,
+      "tempo_execucao_ms": 2.61,
       "casos": [
         {
           "id": "EVAL-001",
@@ -29,7 +29,7 @@
             "regras_texto": 1.0
           },
           "motivos": {
-            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "aderencia_dados": "Output 100% aderente aos valores e agregações do contexto recuperado do banco.",
             "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
             "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
           }
@@ -47,7 +47,7 @@
             "regras_texto": 1.0
           },
           "motivos": {
-            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "aderencia_dados": "Output 100% aderente aos valores e agregações do contexto recuperado do banco.",
             "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
             "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
           }
@@ -65,7 +65,7 @@
             "regras_texto": 1.0
           },
           "motivos": {
-            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "aderencia_dados": "Output 100% aderente aos valores e agregações do contexto recuperado do banco.",
             "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
             "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
           }
@@ -101,8 +101,8 @@
             "regras_texto": 1.0
           },
           "motivos": {
-            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
-            "reducao_alucinacao": "Preveniu alucinação no fallback vazio (DEF-015), declarando explicitamente a ausência do dado.",
+            "aderencia_dados": "Output 100% aderente aos valores e agregações do contexto recuperado do banco.",
+            "reducao_alucinacao": "Preveniu alucinação em consulta vazia (DEF-015), declarando explicitamente a ausência do dado.",
             "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
           }
         },
@@ -119,8 +119,8 @@
             "regras_texto": 1.0
           },
           "motivos": {
-            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
-            "reducao_alucinacao": "Preveniu alucinação no fallback vazio (DEF-015), declarando explicitamente a ausência do dado.",
+            "aderencia_dados": "Output 100% aderente aos valores e agregações do contexto recuperado do banco.",
+            "reducao_alucinacao": "Preveniu alucinação em consulta vazia (DEF-015), declarando explicitamente a ausência do dado.",
             "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
           }
         },
@@ -137,7 +137,7 @@
             "regras_texto": 1.0
           },
           "motivos": {
-            "aderencia_dados": "Valor contraditório/não suportado detectado: '38,8'",
+            "aderencia_dados": "Valor contraditório/não suportado detectado: '38,8'; Valor monetário R$ 42,1 não possui lastro no contexto do banco",
             "reducao_alucinacao": "Alucinação detectada (trecho proibido presente: '38,8'); Armadilha do Fallback (DEF-015): a consulta não retornou dados para o filtro solicitado, mas o modelo não informou a ausência de dados e fabricou/extrapolou uma resposta.; Modelo inventou estimativa numérica para indicador corporativo inexistente no banco (CT-017).",
             "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
           }
@@ -155,14 +155,14 @@
             "regras_texto": 1.0
           },
           "motivos": {
-            "aderencia_dados": "Valor contraditório/não suportado detectado: 'Setembro/2026 foi de R$ 5,2'",
+            "aderencia_dados": "Valor contraditório/não suportado detectado: 'Setembro/2026 foi de R$ 5,2'; Valor monetário R$ 5,2 não possui lastro no contexto do banco",
             "reducao_alucinacao": "Alucinação detectada (trecho proibido presente: 'Setembro/2026 foi de R$ 5,2'); Armadilha do Fallback (DEF-015): a consulta não retornou dados para o filtro solicitado, mas o modelo não informou a ausência de dados e fabricou/extrapolou uma resposta.",
             "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
           }
         },
         {
           "id": "EVAL-009",
-          "ct_referencia": "CT-023",
+          "ct_referencia": "CT-020 / CT-023",
           "categoria": "regras_texto",
           "esperado_aprovado": true,
           "aprovado_obtido": true,
@@ -173,7 +173,7 @@
             "regras_texto": 1.0
           },
           "motivos": {
-            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "aderencia_dados": "Output 100% aderente aos valores e agregações do contexto recuperado do banco.",
             "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
             "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
           }
@@ -191,7 +191,7 @@
             "regras_texto": 1.0
           },
           "motivos": {
-            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "aderencia_dados": "Output 100% aderente aos valores e agregações do contexto recuperado do banco.",
             "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
             "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
           }
@@ -209,7 +209,7 @@
             "regras_texto": 0.5
           },
           "motivos": {
-            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "aderencia_dados": "Output 100% aderente aos valores e agregações do contexto recuperado do banco.",
             "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
             "regras_texto": "Violação de Persona (CT-023): a resposta NÃO termina com a palavra obrigatória 'senhor'"
           }
@@ -259,13 +259,13 @@
     },
     "Ragas": {
       "ferramenta": "Ragas",
-      "versao": "0.4.4",
+      "versao": "compat-offline (ragas opcional)",
       "modo": "offline_hibrido",
       "schema_utilizado": "EvaluationDataset[SingleTurnSample]",
       "total_casos": 12,
       "acertos_deteccao": 12,
       "acuracia_deteccao": 1.0,
-      "tempo_execucao_ms": 2.29,
+      "tempo_execucao_ms": 1.67,
       "casos": [
         {
           "id": "EVAL-001",
@@ -285,7 +285,7 @@
             "aspect_critic_persona": 1.0
           },
           "motivos": {
-            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "aderencia_dados": "Output 100% aderente aos valores e agregações do contexto recuperado do banco.",
             "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
             "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
           }
@@ -308,7 +308,7 @@
             "aspect_critic_persona": 1.0
           },
           "motivos": {
-            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "aderencia_dados": "Output 100% aderente aos valores e agregações do contexto recuperado do banco.",
             "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
             "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
           }
@@ -331,7 +331,7 @@
             "aspect_critic_persona": 1.0
           },
           "motivos": {
-            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "aderencia_dados": "Output 100% aderente aos valores e agregações do contexto recuperado do banco.",
             "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
             "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
           }
@@ -377,8 +377,8 @@
             "aspect_critic_persona": 1.0
           },
           "motivos": {
-            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
-            "reducao_alucinacao": "Preveniu alucinação no fallback vazio (DEF-015), declarando explicitamente a ausência do dado.",
+            "aderencia_dados": "Output 100% aderente aos valores e agregações do contexto recuperado do banco.",
+            "reducao_alucinacao": "Preveniu alucinação em consulta vazia (DEF-015), declarando explicitamente a ausência do dado.",
             "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
           }
         },
@@ -400,8 +400,8 @@
             "aspect_critic_persona": 1.0
           },
           "motivos": {
-            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
-            "reducao_alucinacao": "Preveniu alucinação no fallback vazio (DEF-015), declarando explicitamente a ausência do dado.",
+            "aderencia_dados": "Output 100% aderente aos valores e agregações do contexto recuperado do banco.",
+            "reducao_alucinacao": "Preveniu alucinação em consulta vazia (DEF-015), declarando explicitamente a ausência do dado.",
             "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
           }
         },
@@ -423,7 +423,7 @@
             "aspect_critic_persona": 1.0
           },
           "motivos": {
-            "aderencia_dados": "Valor contraditório/não suportado detectado: '38,8'",
+            "aderencia_dados": "Valor contraditório/não suportado detectado: '38,8'; Valor monetário R$ 42,1 não possui lastro no contexto do banco",
             "reducao_alucinacao": "Alucinação detectada (trecho proibido presente: '38,8'); Armadilha do Fallback (DEF-015): a consulta não retornou dados para o filtro solicitado, mas o modelo não informou a ausência de dados e fabricou/extrapolou uma resposta.; Modelo inventou estimativa numérica para indicador corporativo inexistente no banco (CT-017).",
             "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
           }
@@ -446,14 +446,14 @@
             "aspect_critic_persona": 1.0
           },
           "motivos": {
-            "aderencia_dados": "Valor contraditório/não suportado detectado: 'Setembro/2026 foi de R$ 5,2'",
+            "aderencia_dados": "Valor contraditório/não suportado detectado: 'Setembro/2026 foi de R$ 5,2'; Valor monetário R$ 5,2 não possui lastro no contexto do banco",
             "reducao_alucinacao": "Alucinação detectada (trecho proibido presente: 'Setembro/2026 foi de R$ 5,2'); Armadilha do Fallback (DEF-015): a consulta não retornou dados para o filtro solicitado, mas o modelo não informou a ausência de dados e fabricou/extrapolou uma resposta.",
             "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
           }
         },
         {
           "id": "EVAL-009",
-          "ct_referencia": "CT-023",
+          "ct_referencia": "CT-020 / CT-023",
           "categoria": "regras_texto",
           "esperado_aprovado": true,
           "aprovado_obtido": true,
@@ -469,7 +469,7 @@
             "aspect_critic_persona": 1.0
           },
           "motivos": {
-            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "aderencia_dados": "Output 100% aderente aos valores e agregações do contexto recuperado do banco.",
             "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
             "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
           }
@@ -492,7 +492,7 @@
             "aspect_critic_persona": 1.0
           },
           "motivos": {
-            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "aderencia_dados": "Output 100% aderente aos valores e agregações do contexto recuperado do banco.",
             "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
             "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
           }
@@ -515,7 +515,7 @@
             "aspect_critic_persona": 0.5
           },
           "motivos": {
-            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "aderencia_dados": "Output 100% aderente aos valores e agregações do contexto recuperado do banco.",
             "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
             "regras_texto": "Violação de Persona (CT-023): a resposta NÃO termina com a palavra obrigatória 'senhor'"
           }
@@ -576,7 +576,7 @@
       "total_casos": 12,
       "acertos_deteccao": 12,
       "acuracia_deteccao": 1.0,
-      "tempo_execucao_ms": 41.23,
+      "tempo_execucao_ms": 27.68,
       "casos": [
         {
           "id": "EVAL-001",
@@ -592,7 +592,7 @@
             "regras_texto": 1.0
           },
           "motivos": {
-            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "aderencia_dados": "Output 100% aderente aos valores e agregações do contexto recuperado do banco.",
             "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
             "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
           },
@@ -625,7 +625,7 @@
             {
               "type": "python",
               "pass": true,
-              "reason": "Aderência=1.0 (Output 100% aderente aos valores e fatos do contexto recuperado do banco.) | Anti-Alucinação=1.0 (Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.) | RegrasTexto=1.0 (Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico.)"
+              "reason": "Aderência=1.0 (Output 100% aderente aos valores e agregações do contexto recuperado do banco.) | Anti-Alucinação=1.0 (Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.) | RegrasTexto=1.0 (Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico.)"
             },
             {
               "type": "icontains",
@@ -653,7 +653,7 @@
             "regras_texto": 1.0
           },
           "motivos": {
-            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "aderencia_dados": "Output 100% aderente aos valores e agregações do contexto recuperado do banco.",
             "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
             "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
           },
@@ -686,7 +686,7 @@
             {
               "type": "python",
               "pass": true,
-              "reason": "Aderência=1.0 (Output 100% aderente aos valores e fatos do contexto recuperado do banco.) | Anti-Alucinação=1.0 (Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.) | RegrasTexto=1.0 (Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico.)"
+              "reason": "Aderência=1.0 (Output 100% aderente aos valores e agregações do contexto recuperado do banco.) | Anti-Alucinação=1.0 (Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.) | RegrasTexto=1.0 (Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico.)"
             },
             {
               "type": "icontains",
@@ -714,7 +714,7 @@
             "regras_texto": 1.0
           },
           "motivos": {
-            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "aderencia_dados": "Output 100% aderente aos valores e agregações do contexto recuperado do banco.",
             "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
             "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
           },
@@ -747,7 +747,7 @@
             {
               "type": "python",
               "pass": true,
-              "reason": "Aderência=1.0 (Output 100% aderente aos valores e fatos do contexto recuperado do banco.) | Anti-Alucinação=1.0 (Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.) | RegrasTexto=1.0 (Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico.)"
+              "reason": "Aderência=1.0 (Output 100% aderente aos valores e agregações do contexto recuperado do banco.) | Anti-Alucinação=1.0 (Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.) | RegrasTexto=1.0 (Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico.)"
             },
             {
               "type": "icontains",
@@ -846,8 +846,8 @@
             "regras_texto": 1.0
           },
           "motivos": {
-            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
-            "reducao_alucinacao": "Preveniu alucinação no fallback vazio (DEF-015), declarando explicitamente a ausência do dado.",
+            "aderencia_dados": "Output 100% aderente aos valores e agregações do contexto recuperado do banco.",
+            "reducao_alucinacao": "Preveniu alucinação em consulta vazia (DEF-015), declarando explicitamente a ausência do dado.",
             "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
           },
           "assertions_yaml": [
@@ -879,7 +879,7 @@
             {
               "type": "python",
               "pass": true,
-              "reason": "Aderência=1.0 (Output 100% aderente aos valores e fatos do contexto recuperado do banco.) | Anti-Alucinação=1.0 (Preveniu alucinação no fallback vazio (DEF-015), declarando explicitamente a ausência do dado.) | RegrasTexto=1.0 (Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico.)"
+              "reason": "Aderência=1.0 (Output 100% aderente aos valores e agregações do contexto recuperado do banco.) | Anti-Alucinação=1.0 (Preveniu alucinação em consulta vazia (DEF-015), declarando explicitamente a ausência do dado.) | RegrasTexto=1.0 (Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico.)"
             },
             {
               "type": "icontains",
@@ -902,8 +902,8 @@
             "regras_texto": 1.0
           },
           "motivos": {
-            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
-            "reducao_alucinacao": "Preveniu alucinação no fallback vazio (DEF-015), declarando explicitamente a ausência do dado.",
+            "aderencia_dados": "Output 100% aderente aos valores e agregações do contexto recuperado do banco.",
+            "reducao_alucinacao": "Preveniu alucinação em consulta vazia (DEF-015), declarando explicitamente a ausência do dado.",
             "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
           },
           "assertions_yaml": [
@@ -935,7 +935,7 @@
             {
               "type": "python",
               "pass": true,
-              "reason": "Aderência=1.0 (Output 100% aderente aos valores e fatos do contexto recuperado do banco.) | Anti-Alucinação=1.0 (Preveniu alucinação no fallback vazio (DEF-015), declarando explicitamente a ausência do dado.) | RegrasTexto=1.0 (Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico.)"
+              "reason": "Aderência=1.0 (Output 100% aderente aos valores e agregações do contexto recuperado do banco.) | Anti-Alucinação=1.0 (Preveniu alucinação em consulta vazia (DEF-015), declarando explicitamente a ausência do dado.) | RegrasTexto=1.0 (Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico.)"
             },
             {
               "type": "icontains",
@@ -958,7 +958,7 @@
             "regras_texto": 1.0
           },
           "motivos": {
-            "aderencia_dados": "Valor contraditório/não suportado detectado: '38,8'",
+            "aderencia_dados": "Valor contraditório/não suportado detectado: '38,8'; Valor monetário R$ 42,1 não possui lastro no contexto do banco",
             "reducao_alucinacao": "Alucinação detectada (trecho proibido presente: '38,8'); Armadilha do Fallback (DEF-015): a consulta não retornou dados para o filtro solicitado, mas o modelo não informou a ausência de dados e fabricou/extrapolou uma resposta.; Modelo inventou estimativa numérica para indicador corporativo inexistente no banco (CT-017).",
             "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
           },
@@ -991,7 +991,7 @@
             {
               "type": "python",
               "pass": false,
-              "reason": "Aderência=0.0 (Valor contraditório/não suportado detectado: '38,8') | Anti-Alucinação=0.0 (Alucinação detectada (trecho proibido presente: '38,8'); Armadilha do Fallback (DEF-015): a consulta não retornou dados para o filtro solicitado, mas o modelo não informou a ausência de dados e fabricou/extrapolou uma resposta.; Modelo inventou estimativa numérica para indicador corporativo inexistente no banco (CT-017).) | RegrasTexto=1.0 (Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico.)"
+              "reason": "Aderência=0.0 (Valor contraditório/não suportado detectado: '38,8'; Valor monetário R$ 42,1 não possui lastro no contexto do banco) | Anti-Alucinação=0.0 (Alucinação detectada (trecho proibido presente: '38,8'); Armadilha do Fallback (DEF-015): a consulta não retornou dados para o filtro solicitado, mas o modelo não informou a ausência de dados e fabricou/extrapolou uma resposta.; Modelo inventou estimativa numérica para indicador corporativo inexistente no banco (CT-017).) | RegrasTexto=1.0 (Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico.)"
             },
             {
               "type": "not-icontains",
@@ -1014,7 +1014,7 @@
             "regras_texto": 1.0
           },
           "motivos": {
-            "aderencia_dados": "Valor contraditório/não suportado detectado: 'Setembro/2026 foi de R$ 5,2'",
+            "aderencia_dados": "Valor contraditório/não suportado detectado: 'Setembro/2026 foi de R$ 5,2'; Valor monetário R$ 5,2 não possui lastro no contexto do banco",
             "reducao_alucinacao": "Alucinação detectada (trecho proibido presente: 'Setembro/2026 foi de R$ 5,2'); Armadilha do Fallback (DEF-015): a consulta não retornou dados para o filtro solicitado, mas o modelo não informou a ausência de dados e fabricou/extrapolou uma resposta.",
             "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
           },
@@ -1047,7 +1047,7 @@
             {
               "type": "python",
               "pass": false,
-              "reason": "Aderência=0.0 (Valor contraditório/não suportado detectado: 'Setembro/2026 foi de R$ 5,2') | Anti-Alucinação=0.0 (Alucinação detectada (trecho proibido presente: 'Setembro/2026 foi de R$ 5,2'); Armadilha do Fallback (DEF-015): a consulta não retornou dados para o filtro solicitado, mas o modelo não informou a ausência de dados e fabricou/extrapolou uma resposta.) | RegrasTexto=1.0 (Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico.)"
+              "reason": "Aderência=0.0 (Valor contraditório/não suportado detectado: 'Setembro/2026 foi de R$ 5,2'; Valor monetário R$ 5,2 não possui lastro no contexto do banco) | Anti-Alucinação=0.0 (Alucinação detectada (trecho proibido presente: 'Setembro/2026 foi de R$ 5,2'); Armadilha do Fallback (DEF-015): a consulta não retornou dados para o filtro solicitado, mas o modelo não informou a ausência de dados e fabricou/extrapolou uma resposta.) | RegrasTexto=1.0 (Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico.)"
             },
             {
               "type": "not-icontains",
@@ -1058,19 +1058,19 @@
         },
         {
           "id": "EVAL-009",
-          "ct_referencia": "CT-023",
+          "ct_referencia": "CT-020 / CT-023",
           "categoria": "regras_texto",
           "esperado_aprovado": true,
           "aprovado_obtido": true,
           "detectou_corretamente": true,
-          "total_assertions_yaml": 9,
+          "total_assertions_yaml": 11,
           "scores": {
             "aderencia_dados": 1.0,
             "reducao_alucinacao": 1.0,
             "regras_texto": 1.0
           },
           "motivos": {
-            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "aderencia_dados": "Output 100% aderente aos valores e agregações do contexto recuperado do banco.",
             "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
             "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
           },
@@ -1103,7 +1103,7 @@
             {
               "type": "python",
               "pass": true,
-              "reason": "Aderência=1.0 (Output 100% aderente aos valores e fatos do contexto recuperado do banco.) | Anti-Alucinação=1.0 (Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.) | RegrasTexto=1.0 (Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico.)"
+              "reason": "Aderência=1.0 (Output 100% aderente aos valores e agregações do contexto recuperado do banco.) | Anti-Alucinação=1.0 (Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.) | RegrasTexto=1.0 (Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico.)"
             },
             {
               "type": "icontains",
@@ -1119,6 +1119,16 @@
               "type": "icontains",
               "pass": true,
               "reason": "icontains('3,5') -> OK"
+            },
+            {
+              "type": "icontains",
+              "pass": true,
+              "reason": "icontains('3,0') -> OK"
+            },
+            {
+              "type": "icontains",
+              "pass": true,
+              "reason": "icontains('-14,2') -> OK"
             }
           ]
         },
@@ -1136,7 +1146,7 @@
             "regras_texto": 1.0
           },
           "motivos": {
-            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "aderencia_dados": "Output 100% aderente aos valores e agregações do contexto recuperado do banco.",
             "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
             "regras_texto": "Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico."
           },
@@ -1169,7 +1179,7 @@
             {
               "type": "python",
               "pass": true,
-              "reason": "Aderência=1.0 (Output 100% aderente aos valores e fatos do contexto recuperado do banco.) | Anti-Alucinação=1.0 (Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.) | RegrasTexto=1.0 (Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico.)"
+              "reason": "Aderência=1.0 (Output 100% aderente aos valores e agregações do contexto recuperado do banco.) | Anti-Alucinação=1.0 (Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.) | RegrasTexto=1.0 (Cumpre todas as regras de texto: termina com 'senhor', tom executivo e sem vazamento técnico.)"
             },
             {
               "type": "icontains",
@@ -1197,7 +1207,7 @@
             "regras_texto": 0.5
           },
           "motivos": {
-            "aderencia_dados": "Output 100% aderente aos valores e fatos do contexto recuperado do banco.",
+            "aderencia_dados": "Output 100% aderente aos valores e agregações do contexto recuperado do banco.",
             "reducao_alucinacao": "Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.",
             "regras_texto": "Violação de Persona (CT-023): a resposta NÃO termina com a palavra obrigatória 'senhor'"
           },
@@ -1230,7 +1240,7 @@
             {
               "type": "python",
               "pass": false,
-              "reason": "Aderência=1.0 (Output 100% aderente aos valores e fatos do contexto recuperado do banco.) | Anti-Alucinação=1.0 (Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.) | RegrasTexto=0.5 (Violação de Persona (CT-023): a resposta NÃO termina com a palavra obrigatória 'senhor')"
+              "reason": "Aderência=1.0 (Output 100% aderente aos valores e agregações do contexto recuperado do banco.) | Anti-Alucinação=1.0 (Nenhuma alucinação detectada; tratou corretamente o escopo dos dados disponíveis.) | RegrasTexto=0.5 (Violação de Persona (CT-023): a resposta NÃO termina com a palavra obrigatória 'senhor')"
             }
           ]
         },

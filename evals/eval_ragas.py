@@ -1,27 +1,31 @@
 """
-Avaliação de Output do Jarvis KPI Bot utilizando a biblioteca Ragas (`ragas==0.4.4`).
-
-Demonstra:
-- Estruturação do dataset no esquema oficial do Ragas (`SingleTurnSample` e `EvaluationDataset`)
-  mapeando:
-  * `user_input` <- pergunta do usuário no Telegram
-  * `retrieved_contexts` <- JSON retornado pelo SQLite `sandbox_jarvis.db` após `sanitizar_linhas_consulta`
-  * `response` <- `texto_resposta` gerado pelo Jarvis
-  * `reference` <- resposta executiva esperada (Ground Truth)
-- Avaliação das métricas orientadas a RAG/Contexto:
-  1. `faithfulness` (Aderência das afirmações ao `retrieved_contexts`)
-  2. `factual_correctness` / `anti_hallucination` (Correspondência factual com `reference` e detecção de alucinação no fallback DEF-015)
-  3. `aspect_critic_jarvis_persona` (Crítico de aspecto para regras de texto: sufixo 'senhor', anti-traceback DEF-006 e anti-injeção CT-026)
-- Modo Híbrido: executa localmente sobre os `SingleTurnSample` sem exigir chave de API,
-  e suporta execução online com `gpt-4o-mini` quando `OPENAI_API_KEY` está configurada.
+Avaliação de Output do Jarvis KPI Bot utilizando Ragas (`EvaluationDataset` + `SingleTurnSample`).
+Inclui fallback leve compatível caso o pacote opcional `ragas` não esteja instalado no ambiente local/CI.
 """
 from __future__ import annotations
 
 import time
+from dataclasses import dataclass, field
 from typing import Any, Dict, List
 
-import ragas
-from ragas.dataset_schema import EvaluationDataset, SingleTurnSample
+try:
+    import ragas as _ragas_pkg
+    from ragas.dataset_schema import EvaluationDataset, SingleTurnSample
+
+    _VERSAO_RAGAS = getattr(_ragas_pkg, "__version__", "instalado")
+except ImportError:
+    _VERSAO_RAGAS = "compat-offline (ragas opcional)"
+
+    @dataclass
+    class SingleTurnSample:  # type: ignore[no-redef]
+        user_input: str
+        retrieved_contexts: List[str] = field(default_factory=list)
+        response: str = ""
+        reference: str = ""
+
+    @dataclass
+    class EvaluationDataset:  # type: ignore[no-redef]
+        samples: List[SingleTurnSample] = field(default_factory=list)
 
 from evals.dataset_jarvis import CasoAvaliacaoJarvis, construir_golden_dataset
 from evals.metricas_jarvis import (
@@ -34,18 +38,16 @@ from evals.metricas_jarvis import (
 
 
 def construir_ragas_dataset(casos: List[CasoAvaliacaoJarvis] | None = None) -> EvaluationDataset:
-    """Converte o Golden Dataset do Jarvis para `ragas.dataset_schema.EvaluationDataset`."""
     dataset = casos or construir_golden_dataset()
-    amostras: List[SingleTurnSample] = []
-    for c in dataset:
-        amostras.append(
-            SingleTurnSample(
-                user_input=c.pergunta,
-                retrieved_contexts=c.contexto_recuperado,
-                response=c.output_modelo,
-                reference=c.resposta_esperada,
-            )
+    amostras: List[SingleTurnSample] = [
+        SingleTurnSample(
+            user_input=c.pergunta,
+            retrieved_contexts=c.contexto_recuperado,
+            response=c.output_modelo,
+            reference=c.resposta_esperada,
         )
+        for c in dataset
+    ]
     return EvaluationDataset(samples=amostras)
 
 
@@ -54,12 +56,6 @@ def avaliar_amostra_ragas(
     caso_meta: CasoAvaliacaoJarvis,
     forcar_offline: bool = False,
 ) -> Dict[str, Any]:
-    """
-    Avalia um `SingleTurnSample` do Ragas calculando:
-    - `faithfulness` (aderência das afirmações da resposta ao `retrieved_contexts`)
-    - `factual_correctness` (alinhamento com `reference` e ausência de alucinação no fallback)
-    - `aspect_critic_persona` (cumprimento das regras de texto e persona 'senhor')
-    """
     res_faith_base = avaliar_aderencia_dados(
         output_modelo=amostra.response or "",
         contexto_recuperado=amostra.retrieved_contexts or [],
@@ -137,10 +133,6 @@ def executar_suite_ragas(
     casos: List[CasoAvaliacaoJarvis] | None = None,
     forcar_offline: bool = False,
 ) -> Dict[str, Any]:
-    """
-    Executa a avaliação com Ragas (`EvaluationDataset` + `SingleTurnSample`)
-    sobre todos os casos do Golden Dataset.
-    """
     inicio = time.perf_counter()
     dataset_meta = casos or construir_golden_dataset()
     ragas_dataset = construir_ragas_dataset(dataset_meta)
@@ -157,7 +149,7 @@ def executar_suite_ragas(
     duracao_ms = round((time.perf_counter() - inicio) * 1000, 2)
     return {
         "ferramenta": "Ragas",
-        "versao": getattr(ragas, "__version__", "0.4.4"),
+        "versao": _VERSAO_RAGAS,
         "modo": "online_openai" if (tem_openai_api_key() and not forcar_offline) else "offline_hibrido",
         "schema_utilizado": "EvaluationDataset[SingleTurnSample]",
         "total_casos": len(ragas_dataset.samples),
@@ -170,17 +162,9 @@ def executar_suite_ragas(
 
 if __name__ == "__main__":
     relatorio = executar_suite_ragas()
-    print(f"=== Ragas v{relatorio['versao']} ({relatorio['schema_utilizado']}) ===")
+    print(f"=== Ragas ({relatorio['versao']}) ===")
     print(
         f"Casos avaliados: {relatorio['total_casos']} | "
         f"Acurácia de detecção (PASS/FAIL): {relatorio['acuracia_deteccao']*100:.1f}% | "
         f"Tempo: {relatorio['tempo_execucao_ms']} ms"
     )
-    for c in relatorio["casos"]:
-        status = "PASS" if c["aprovado_obtido"] else "FAIL"
-        esperado = "PASS" if c["esperado_aprovado"] else "FAIL"
-        check = "OK" if c["detectou_corretamente"] else "DIVERGENTE"
-        print(
-            f"  [{c['id']}] ({c['categoria']}) -> Obtido: {status} | Esperado: {esperado} [{check}] "
-            f"| Ragas: {c['metricas_ragas']}"
-        )

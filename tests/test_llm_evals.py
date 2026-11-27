@@ -50,13 +50,14 @@ class TestDatasetBancoJarvis(unittest.TestCase):
         self.assertIn("12.4", ctx[0])
         self.assertIn("9.7", ctx[0])
 
-    def test_consulta_vazia_aciona_fallback_igual_kpi_bot(self):
+    def test_consulta_vazia_aciona_fallback_seguro_metadados(self):
         ctx = consultar_banco_jarvis(
             "SELECT * FROM indicadores_empresa WHERE periodo LIKE '%Setembro/2026%'"
         )
         self.assertEqual(len(ctx), 1)
         self.assertIn("A busca exata não retornou linhas", ctx[0])
-        self.assertIn("indicadores_empresa", ctx[0])
+        self.assertIn("filtros_disponiveis", ctx[0])
+        self.assertNotIn("145.2", ctx[0])
 
     def test_golden_dataset_possui_12_casos_balanceados(self):
         casos = construir_golden_dataset()

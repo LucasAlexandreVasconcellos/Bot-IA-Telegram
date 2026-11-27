@@ -1,0 +1,20 @@
+#!/bin/sh
+set -e
+
+RO_USER="${POSTGRES_READONLY_USER:-jarvis_readonly}"
+RO_PASS="${POSTGRES_READONLY_PASSWORD:-troque_esta_senha_ro}"
+
+psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
+    DO \$\$
+    BEGIN
+        IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = '${RO_USER}') THEN
+            CREATE ROLE ${RO_USER} LOGIN PASSWORD '${RO_PASS}';
+        END IF;
+    END
+    \$\$;
+
+    GRANT CONNECT ON DATABASE "${POSTGRES_DB}" TO ${RO_USER};
+    GRANT USAGE ON SCHEMA public TO ${RO_USER};
+    GRANT SELECT ON ALL TABLES IN SCHEMA public TO ${RO_USER};
+    ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO ${RO_USER};
+EOSQL

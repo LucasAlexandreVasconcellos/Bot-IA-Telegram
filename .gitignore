@@ -1,0 +1,31 @@
+# Credenciais e variáveis de ambiente
+.env
+.env.*
+!.env.example
+
+# Bytecode Python e ambientes virtuais
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+build/
+dist/
+*.egg-info/
+
+# Bancos locais e gráficos temporários
+*.db
+*.db-journal
+*.db-wal
+*.sqlite
+*.sqlite3
+charts/
+*.png
+
+# Caches de testes, lint e LLM Evals
+.pytest_cache/
+.deepeval/
+.coverage
+htmlcov/
+.ruff_cache/

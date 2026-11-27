@@ -1,21 +1,37 @@
 """
-Avaliação de Output do Jarvis KPI Bot utilizando a biblioteca DeepEval.
-
-Demonstra:
-- Criação de `LLMTestCase` com `input`, `actual_output`, `expected_output`, `retrieval_context` e `context`.
-- Métricas customizadas herdando de `deepeval.metrics.BaseMetric` para os 3 pilares:
-  1. `JarvisFaithfulnessMetric` (Aderência aos dados SQLite)
-  2. `JarvisHallucinationMetric` (Redução de alucinações e proteção contra o fallback DEF-015)
-  3. `JarvisPersonaTextRulesMetric` (Cumprimento da regra obrigatória 'senhor', anti-traceback DEF-006 e anti-injeção CT-026)
-- Modo Híbrido: funciona 100% offline e aciona automaticamente `gpt-4o-mini` (ou `FaithfulnessMetric` / `HallucinationMetric` / `GEval` nativos do DeepEval) quando `OPENAI_API_KEY` está configurada.
+Avaliação de Output do Jarvis KPI Bot utilizando DeepEval (`LLMTestCase` + `BaseMetric`).
+Inclui fallback leve compatível caso o pacote opcional `deepeval` não esteja instalado no ambiente local/CI,
+permitindo que a suíte de testes unitários execute sem dependências pesadas externas.
 """
 from __future__ import annotations
 
 import time
+from dataclasses import dataclass, field
 from typing import Any, Dict, List
 
-from deepeval.metrics import BaseMetric
-from deepeval.test_case import LLMTestCase
+try:
+    import deepeval as _deepeval_pkg
+    from deepeval.metrics import BaseMetric
+    from deepeval.test_case import LLMTestCase
+
+    _VERSAO_DEEPEVAL = getattr(_deepeval_pkg, "__version__", "instalado")
+except ImportError:
+    _VERSAO_DEEPEVAL = "compat-offline (deepeval opcional)"
+
+    class BaseMetric:  # type: ignore[no-redef]
+        threshold: float = 0.8
+        score: float = 0.0
+        reason: str = ""
+        success: bool = False
+
+    @dataclass
+    class LLMTestCase:  # type: ignore[no-redef]
+        input: str
+        actual_output: str
+        expected_output: str = ""
+        retrieval_context: List[str] = field(default_factory=list)
+        context: List[str] = field(default_factory=list)
+        additional_metadata: Dict[str, Any] = field(default_factory=dict)
 
 from evals.dataset_jarvis import CasoAvaliacaoJarvis, construir_golden_dataset
 from evals.metricas_jarvis import (
@@ -44,7 +60,11 @@ class JarvisFaithfulnessMetric(BaseMetric):
         self.score = 0.0
         self.reason = ""
         self.success = False
-        self.evaluation_model = "gpt-4o-mini (Híbrido)" if (tem_openai_api_key() and not forcar_offline) else "JarvisContextualJudge (Offline)"
+        self.evaluation_model = (
+            "gpt-4o-mini (Híbrido)"
+            if (tem_openai_api_key() and not forcar_offline)
+            else "JarvisContextualJudge (Offline)"
+        )
 
     def measure(self, test_case: LLMTestCase, *args: Any, **kwargs: Any) -> float:
         res_base = avaliar_aderencia_dados(
@@ -96,7 +116,11 @@ class JarvisHallucinationMetric(BaseMetric):
         self.score = 0.0
         self.reason = ""
         self.success = False
-        self.evaluation_model = "gpt-4o-mini (Híbrido)" if (tem_openai_api_key() and not forcar_offline) else "JarvisContextualJudge (Offline)"
+        self.evaluation_model = (
+            "gpt-4o-mini (Híbrido)"
+            if (tem_openai_api_key() and not forcar_offline)
+            else "JarvisContextualJudge (Offline)"
+        )
 
     def measure(self, test_case: LLMTestCase, *args: Any, **kwargs: Any) -> float:
         res_base = avaliar_reducao_alucinacao(
@@ -133,7 +157,7 @@ class JarvisHallucinationMetric(BaseMetric):
 
 
 class JarvisPersonaTextRulesMetric(BaseMetric):
-    """Métrica DeepEval (estilo G-Eval + Guardrail) para regras de texto e persona ('senhor')."""
+    """Métrica DeepEval para regras de texto e persona ('senhor')."""
 
     def __init__(
         self,
@@ -147,7 +171,11 @@ class JarvisPersonaTextRulesMetric(BaseMetric):
         self.score = 0.0
         self.reason = ""
         self.success = False
-        self.evaluation_model = "gpt-4o-mini (Híbrido)" if (tem_openai_api_key() and not forcar_offline) else "JarvisContextualJudge (Offline)"
+        self.evaluation_model = (
+            "gpt-4o-mini (Híbrido)"
+            if (tem_openai_api_key() and not forcar_offline)
+            else "JarvisContextualJudge (Offline)"
+        )
 
     def measure(self, test_case: LLMTestCase, *args: Any, **kwargs: Any) -> float:
         res_base = avaliar_regras_texto(
@@ -181,7 +209,6 @@ class JarvisPersonaTextRulesMetric(BaseMetric):
 
 
 def converter_para_deepeval_testcase(caso: CasoAvaliacaoJarvis) -> LLMTestCase:
-    """Converte um caso do Golden Dataset do Jarvis para `deepeval.test_case.LLMTestCase`."""
     return LLMTestCase(
         input=caso.pergunta,
         actual_output=caso.output_modelo,
@@ -201,10 +228,6 @@ def executar_suite_deepeval(
     casos: List[CasoAvaliacaoJarvis] | None = None,
     forcar_offline: bool = False,
 ) -> Dict[str, Any]:
-    """
-    Executa a suíte completa de avaliação com DeepEval sobre o Golden Dataset
-    e retorna métricas detalhadas de cada caso e o resumo consolidado.
-    """
     inicio = time.perf_counter()
     dataset = casos or construir_golden_dataset()
     resultados_casos: List[Dict[str, Any]] = []
@@ -212,7 +235,6 @@ def executar_suite_deepeval(
 
     for caso in dataset:
         tc = converter_para_deepeval_testcase(caso)
-
         m_faith = JarvisFaithfulnessMetric(
             valores_obrigatorios=caso.valores_obrigatorios if not caso.exige_ausencia_dados else [],
             valores_proibidos=caso.valores_proibidos,
@@ -260,7 +282,7 @@ def executar_suite_deepeval(
     duracao_ms = round((time.perf_counter() - inicio) * 1000, 2)
     return {
         "ferramenta": "DeepEval",
-        "versao": "4.3.5",
+        "versao": _VERSAO_DEEPEVAL,
         "modo": "online_openai" if (tem_openai_api_key() and not forcar_offline) else "offline_hibrido",
         "total_casos": len(dataset),
         "acertos_deteccao": acertos_classificacao,
@@ -278,11 +300,3 @@ if __name__ == "__main__":
         f"Acurácia de detecção (PASS/FAIL): {relatorio['acuracia_deteccao']*100:.1f}% | "
         f"Tempo: {relatorio['tempo_execucao_ms']} ms"
     )
-    for c in relatorio["casos"]:
-        status = "PASS" if c["aprovado_obtido"] else "FAIL"
-        esperado = "PASS" if c["esperado_aprovado"] else "FAIL"
-        check = "OK" if c["detectou_corretamente"] else "DIVERGENTE"
-        print(
-            f"  [{c['id']}] ({c['categoria']}) -> Obtido: {status} | Esperado: {esperado} [{check}] "
-            f"| Scores: {c['scores']}"
-        )

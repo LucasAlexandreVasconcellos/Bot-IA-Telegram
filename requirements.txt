@@ -1,0 +1,16 @@
+# Dependências principais do Jarvis KPI Bot
+pyTelegramBotAPI>=4.22.0
+openai>=1.50.0
+pydantic>=2.7.0
+python-dotenv>=1.0.1
+matplotlib>=3.8.0
+numpy>=1.26.0
+sqlglot>=25.0.0
+mcp>=1.2.0
+
+# Suporte PostgreSQL (opcional em dev local SQLite, obrigatório em homologação PostgreSQL)
+psycopg2-binary>=2.9.9
+
+# Utilitários de testes e avaliação declarativa
+pyyaml>=6.0.1
+pytest>=8.0.0

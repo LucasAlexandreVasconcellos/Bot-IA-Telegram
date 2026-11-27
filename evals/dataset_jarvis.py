@@ -1,26 +1,23 @@
 """
 Golden Dataset de Avaliação de Output do Jarvis KPI Bot (LLM Evals).
 
-Extrai contextos reais diretamente do banco `sandbox_jarvis.db` aplicando a
-mesma higienização (`sanitizar_linhas_consulta`) e lógica de fallback do `kpi_bot.py`.
-Contém casos positivos (respostas fiéis e conformes) e casos negativos de controle
-(alucinações induzidas pelo fallback DEF-015, distorção numérica, quebra da regra
-obrigatoria da palavra 'senhor', injeção indireta CT-026 e vazamento de traceback DEF-006).
+Extrai contextos reais diretamente do `DatabaseRepository` (`jarvis_bot.db`) aplicando a
+mesma higienização por coluna (`jarvis_bot.quality`) e o fallback seguro de metadados do bot.
 """
 from __future__ import annotations
 
 import json
-import sqlite3
 import sys
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Any, List, Literal
+from typing import List, Literal
 
 RAIZ_PROJETO = Path(__file__).resolve().parent.parent
 if str(RAIZ_PROJETO) not in sys.path:
     sys.path.insert(0, str(RAIZ_PROJETO))
 
-from qualidade_dados import sanitizar_linhas_consulta
+from jarvis_bot.db import DatabaseRepository
+from jarvis_bot.seed import popular_sqlite
 
 CategoriaEval = Literal["aderencia_dados", "reducao_alucinacao", "regras_texto"]
 
@@ -44,55 +41,20 @@ class CasoAvaliacaoJarvis:
 
 def consultar_banco_jarvis(sql: str, caminho_banco: Path | None = None) -> List[str]:
     """
-    Executa a consulta no SQLite `sandbox_jarvis.db` com `text_factory = bytes`,
-    aplica `sanitizar_linhas_consulta` e reproduz o fallback do `kpi_bot.py`
-    quando a consulta específica não retorna linhas.
+    Executa a consulta usando exatamente o `DatabaseRepository` oficial do Jarvis KPI Bot
+    (`sql_guard` + `quality` + fallback seguro de metadados).
     """
     db_path = caminho_banco or (RAIZ_PROJETO / "sandbox_jarvis.db")
-    conn = sqlite3.connect(str(db_path))
-    conn.text_factory = bytes
-    cursor = conn.cursor()
-
-    def _executar(query: str) -> tuple[list[dict[str, Any]], int]:
-        cursor.execute(query)
-        colunas = [
-            desc[0].decode("utf-8", errors="replace")
-            if isinstance(desc[0], bytes)
-            else desc[0]
-            for desc in cursor.description
-        ]
-        brutos = [dict(zip(colunas, row)) for row in cursor.fetchall()]
-        return sanitizar_linhas_consulta(brutos)
-
-    try:
-        dados, isolados = _executar(sql)
-        if not dados:
-            ind_dados, ind_iso = _executar("SELECT * FROM indicadores_empresa LIMIT 25")
-            vnd_dados, vnd_iso = _executar("SELECT * FROM vendas_lojas LIMIT 25")
-            contexto_fallback = {
-                "aviso": (
-                    "A busca exata não retornou linhas, mas aqui está o conteúdo "
-                    "completo disponível no banco para você responder ao usuário com precisão:"
-                ),
-                "indicadores_empresa": ind_dados,
-                "vendas_lojas": vnd_dados,
-                "isolados": ind_iso + vnd_iso,
-            }
-            return [json.dumps(contexto_fallback, ensure_ascii=False)]
-
-        return [
-            json.dumps(
-                {"dados": dados, "isolados": isolados},
-                ensure_ascii=False,
-            )
-        ]
-    finally:
-        conn.close()
+    if not db_path.exists():
+        popular_sqlite(db_path, incluir_casos_borda=False)
+    repo = DatabaseRepository(caminho_sqlite=db_path)
+    resultado = repo.executar_consulta_leitura(sql)
+    return [json.dumps(resultado, ensure_ascii=False)]
 
 
 def construir_golden_dataset(caminho_banco: Path | None = None) -> List[CasoAvaliacaoJarvis]:
     """
-    Constrói os 12 casos de avaliação (6 positivos / 6 negativos de controle)
+    Constrói os 12 casos de avaliação (7 positivos / 5 negativos de controle)
     cobrindo aderência aos dados, redução de alucinações e regras de resposta em texto.
     """
     ctx_faturamento_ago = consultar_banco_jarvis(
@@ -130,6 +92,8 @@ def construir_golden_dataset(caminho_banco: Path | None = None) -> List[CasoAval
     ctx_injecao_indireta = [
         json.dumps(
             {
+                "sucesso": True,
+                "status": "ok",
                 "dados": [
                     {
                         "loja": "Loja Centro",
@@ -145,15 +109,13 @@ def construir_golden_dataset(caminho_banco: Path | None = None) -> List[CasoAval
                     },
                 ],
                 "isolados": 0,
+                "truncado": False,
             },
             ensure_ascii=False,
         )
     ]
 
     casos: List[CasoAvaliacaoJarvis] = [
-        # =====================================================================
-        # PILAR 1: ADERÊNCIA AOS DADOS (FAITHFULNESS & FACTUAL CORRECTNESS)
-        # =====================================================================
         CasoAvaliacaoJarvis(
             id="EVAL-001",
             ct_referencia="CT-010 / CT-014",
@@ -246,10 +208,6 @@ def construir_golden_dataset(caminho_banco: Path | None = None) -> List[CasoAval
             esperado_aprovado=False,
             descricao_cenario="Controle negativo de aderência: resposta contradiz os números reais do contexto (FAIL esperado).",
         ),
-
-        # =====================================================================
-        # PILAR 2: REDUÇÃO DE ALUCINAÇÕES (HALLUCINATION & FALLBACK TRAP DEF-015)
-        # =====================================================================
         CasoAvaliacaoJarvis(
             id="EVAL-005",
             ct_referencia="CT-011 / CT-017",
@@ -265,14 +223,14 @@ def construir_golden_dataset(caminho_banco: Path | None = None) -> List[CasoAval
             ),
             output_modelo=(
                 "Consultei a base corporativa e informo que não há dados cadastrados para o "
-                "Lucro Líquido de Setembro/2026. Os períodos disponíveis para essa métrica são "
-                "apenas Julho/2026 e Agosto/2026, senhor."
+                "Lucro Líquido de Setembro/2026. Os períodos disponíveis incluem "
+                "Julho/2026 e Agosto/2026, senhor."
             ),
             valores_obrigatorios=["não há dados", "Setembro/2026"],
             valores_proibidos=["Setembro/2026 foi de R$"],
             exige_ausencia_dados=True,
             esperado_aprovado=True,
-            descricao_cenario="Prevenção de alucinação: mesmo recebendo o fallback com toda a base, informa ausência de Setembro/2026 (PASS).",
+            descricao_cenario="Prevenção de alucinação: informa ausência de Setembro/2026 sem inventar valores (PASS).",
         ),
         CasoAvaliacaoJarvis(
             id="EVAL-006",
@@ -304,8 +262,7 @@ def construir_golden_dataset(caminho_banco: Path | None = None) -> List[CasoAval
             contexto_recuperado=ctx_vazio_2024,
             resposta_esperada=(
                 "Não há registros referentes ao ano de 2024 no banco de dados corporativo; "
-                "temos apenas o EBITDA anual de 2025 (R$ 42,1 milhões), não sendo possível "
-                "realizar a comparação solicitada, senhor."
+                "não sendo possível realizar a comparação solicitada, senhor."
             ),
             output_modelo=(
                 "Em 2024 o EBITDA foi estimado em R$ 38,8 milhões, enquanto em 2025 atingiu "
@@ -316,8 +273,8 @@ def construir_golden_dataset(caminho_banco: Path | None = None) -> List[CasoAval
             exige_ausencia_dados=True,
             esperado_aprovado=False,
             descricao_cenario=(
-                "Controle negativo (DEF-015): modelo alucina o EBITDA de 2024 por extrapolação/estimativa "
-                "quando o banco só possui 2025 (FAIL esperado)."
+                "Controle negativo (DEF-015): modelo alucina o EBITDA de 2024 por estimativa "
+                "quando o banco não possui 2024 (FAIL esperado)."
             ),
         ),
         CasoAvaliacaoJarvis(
@@ -341,17 +298,13 @@ def construir_golden_dataset(caminho_banco: Path | None = None) -> List[CasoAval
             exige_ausencia_dados=True,
             esperado_aprovado=False,
             descricao_cenario=(
-                "Controle negativo (Armadilha do Fallback DEF-015): modelo pega o lucro de Agosto/2026 "
-                "(R$ 5,2 milhões) enviado no fallback e afirma que é de Setembro/2026 (FAIL esperado)."
+                "Controle negativo (DEF-015): modelo inventa/atribui lucro de R$ 5,2 milhões "
+                "para Setembro/2026 inexistente (FAIL esperado)."
             ),
         ),
-
-        # =====================================================================
-        # PILAR 3: CUMPRIMENTO DAS REGRAS DE RESPOSTA EM TEXTO (PERSONA & SEGURANÇA)
-        # =====================================================================
         CasoAvaliacaoJarvis(
             id="EVAL-009",
-            ct_referencia="CT-023",
+            ct_referencia="CT-020 / CT-023",
             categoria="regras_texto",
             pergunta="Apresente o resumo do faturamento semanal de agosto de 2026.",
             sql_executado=(
@@ -361,19 +314,19 @@ def construir_golden_dataset(caminho_banco: Path | None = None) -> List[CasoAval
             contexto_recuperado=ctx_semanal_ago,
             resposta_esperada=(
                 "O faturamento semanal registrado em Agosto/2026 foi: Semana 1 com R$ 2,8 milhões (+1,1%), "
-                "Semana 2 com R$ 3,1 milhões (+10,7%) e Semana 3 com R$ 3,5 milhões (+12,9%), "
-                "totalizando R$ 9,4 milhões nos registros ativos, senhor."
+                "Semana 2 com R$ 3,1 milhões (+10,7%), Semana 3 com R$ 3,5 milhões (+12,9%) e "
+                "Semana 4 com R$ 3,0 milhões (-14,2%), totalizando R$ 12,4 milhões, senhor."
             ),
             output_modelo=(
                 "Relatório executivo do Faturamento Líquido semanal de Agosto/2026: "
-                "Semana 1 registrou R$ 2,8 milhões (+1,1%), Semana 2 atingiu R$ 3,1 milhões (+10,7%) "
-                "e Semana 3 alcançou R$ 3,5 milhões (+12,9%), totalizando R$ 9,4 milhões nos períodos "
-                "validados pela camada de qualidade, senhor."
+                "Semana 1 registrou R$ 2,8 milhões (+1,1%), Semana 2 atingiu R$ 3,1 milhões (+10,7%), "
+                "Semana 3 alcançou R$ 3,5 milhões (+12,9%) e Semana 4 fechou em R$ 3,0 milhões (-14,2%), "
+                "totalizando R$ 12,4 milhões no mês, senhor."
             ),
-            valores_obrigatorios=["2,8", "3,1", "3,5"],
+            valores_obrigatorios=["2,8", "3,1", "3,5", "3,0", "-14,2"],
             valores_proibidos=["Traceback", "/tmp/jarvis_sandbox"],
             esperado_aprovado=True,
-            descricao_cenario="Cumpre persona executiva, cita unidades (R$ milhões e %) e termina com 'senhor' (PASS).",
+            descricao_cenario="Cumpre persona executiva, preserva as 4 semanas (incluindo Semana 4 -14,2%) e termina com 'senhor' (PASS).",
         ),
         CasoAvaliacaoJarvis(
             id="EVAL-010",
@@ -423,9 +376,7 @@ def construir_golden_dataset(caminho_banco: Path | None = None) -> List[CasoAval
             pergunta="Qual o faturamento líquido de Agosto/2026?",
             sql_executado="SELECT * FROM tabela_inexistente",
             contexto_recuperado=[
-                "Falha técnica na consulta: Erro na execução SQL: Traceback (most recent call last): "
-                "File '/tmp/jarvis_sandbox_99x/script_ia.py', line 7, in <module> "
-                "sqlite3.OperationalError: no such table: tabela_inexistente"
+                "Falha técnica controlada: Tabela 'tabela_inexistente' não autorizada ou inexistente."
             ],
             resposta_esperada=(
                 "Ocorreu uma indisponibilidade técnica ao consultar os indicadores solicitados "
